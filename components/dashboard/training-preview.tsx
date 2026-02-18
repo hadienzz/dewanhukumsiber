@@ -48,8 +48,11 @@ interface TrainingPreviewProps {
 
 export function TrainingPreview({ training, reviews }: TrainingPreviewProps) {
   const participants = getParticipantsByTrainingId(training.id);
+  const enrolledParticipants =
+    training.enrolledParticipants ?? training.enrolled_participants ?? 0;
+  const maxParticipants = training.maxParticipants ?? training.max_participants ?? 0;
   const participantProgress =
-    (training.enrolledParticipants / training.maxParticipants) * 100;
+    maxParticipants > 0 ? (enrolledParticipants / maxParticipants) * 100 : 0;
 
   const statusColors: Record<string, string> = {
     upcoming: "bg-blue-100 text-blue-700",
@@ -323,16 +326,16 @@ export function TrainingPreview({ training, reviews }: TrainingPreviewProps) {
                         <div className="flex items-center gap-3">
                           <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                             <Image
-                              src={review.reviewerAvatar || "/placeholder.svg"}
-                              alt={review.reviewerName}
+                              src={review.reviewer_avatar || "/placeholder.svg"}
+                              alt={review.reviewer_name}
                               fill
                               className="object-cover"
                             />
                           </div>
                           <div>
-                            <p className="font-medium">{review.reviewerName}</p>
+                            <p className="font-medium">{review.reviewer_name}</p>
                             <p className="text-sm text-muted-foreground">
-                              {review.reviewerRole}
+                              {review.reviewer_role}
                             </p>
                           </div>
                         </div>
@@ -387,7 +390,7 @@ export function TrainingPreview({ training, reviews }: TrainingPreviewProps) {
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Kuota Peserta</span>
                     <span className="font-medium">
-                      {training.enrolledParticipants}/{training.maxParticipants}
+                      {enrolledParticipants}/{maxParticipants}
                     </span>
                   </div>
                   <Progress value={participantProgress} className="h-2" />
@@ -411,7 +414,7 @@ export function TrainingPreview({ training, reviews }: TrainingPreviewProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span>Maks. {training.maxParticipants} peserta</span>
+                    <span>Maks. {maxParticipants} peserta</span>
                   </div>
                   <div className="flex items-center gap-2">
                     {training.isOnline ? (
@@ -449,13 +452,13 @@ export function TrainingPreview({ training, reviews }: TrainingPreviewProps) {
                     Peserta Terdaftar
                   </span>
                   <span className="font-semibold">
-                    {training.enrolledParticipants}
+                    {enrolledParticipants}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Sisa Kuota</span>
                   <span className="font-semibold">
-                    {training.maxParticipants - training.enrolledParticipants}
+                    {maxParticipants - enrolledParticipants}
                   </span>
                 </div>
                 {training.rating && (

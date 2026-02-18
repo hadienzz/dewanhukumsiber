@@ -42,7 +42,7 @@ export default function PastTrainingReviewSection() {
       : completedTrainings.filter((t) => t.type === selectedType);
 
   const getReviewsForTraining = (trainingId: string) => {
-    return trainingReviews.filter((r) => r.trainingId === trainingId);
+    return trainingReviews.filter((r) => r.training_id === trainingId);
   };
 
   return (
@@ -276,7 +276,7 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                         </p>
                       </div>
                       <p className="text-xs font-medium mt-2 text-right">
-                        — {topReview.reviewerName}
+                        — {topReview.reviewer_name}
                       </p>
                     </div>
                   )}

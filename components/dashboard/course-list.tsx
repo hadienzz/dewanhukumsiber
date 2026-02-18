@@ -12,7 +12,13 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { CourseCard } from "@/components/dashboard/course-card"
 import {
@@ -109,20 +115,41 @@ export function CourseList({ courses: initialCourses }: CourseListProps) {
               setCategoryFilter(value)
               setCurrentPage(1)
             }}
-            options={[{ value: "all", label: "Semua Kategori" }, ...categoryOptions]}
-            placeholder="Kategori"
-            className="w-[180px]"
-          />
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Kategori" />
+            </SelectTrigger>
+            <SelectContent>
+              {[{ value: "all", label: "Semua Kategori" }, ...categoryOptions].map(
+                (opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+
           <Select
             value={statusFilter}
             onValueChange={(value) => {
               setStatusFilter(value)
               setCurrentPage(1)
             }}
-            options={[{ value: "all", label: "Semua Status" }, ...statusOptions]}
-            placeholder="Status"
-            className="w-[150px]"
-          />
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {[{ value: "all", label: "Semua Status" }, ...statusOptions].map(
+                (opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex items-center gap-1 rounded-md border p-1">
           <Button

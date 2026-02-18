@@ -89,6 +89,8 @@ export interface Training {
   description: string;
   short_description: string;
   thumbnail_url?: string;
+  // Some endpoints return `thumbnail` (not `thumbnail_url`)
+  thumbnail?: string;
   training_type: TrainingType;
   status: TrainingStatus;
   video_urls: string[];
@@ -108,6 +110,8 @@ export interface Training {
     username: string;
   };
   modules?: TrainingModule[];
+  // Some user-facing endpoints include exams directly
+  exams?: Exam[];
   live_sessions?: LiveSession[];
   _count?: {
     modules: number;
@@ -120,6 +124,9 @@ export interface Training {
   has_access?: boolean;
   access_message?: string;
   user_progress?: UserTraining;
+  // Some user-facing endpoints flatten progress/enrollment flags
+  progress?: number;
+  is_enrolled?: boolean;
 }
 
 export interface TrainingModule {
@@ -129,7 +136,14 @@ export interface TrainingModule {
   description?: string;
   video_url?: string;
   duration?: number;
+  // Some endpoints use `duration_minutes` naming
+  duration_minutes?: number;
   order: number;
+  // Module type and exam linkage (user-facing payloads)
+  module_type?: string;
+  exam_id?: string | null;
+  // Some endpoints flatten completion state
+  is_completed?: boolean;
   created_at: string;
   updated_at: string;
   // Progress
@@ -187,7 +201,7 @@ export interface Exam {
   questions?: ExamQuestion[];
   _count?: {
     questions: number;
-    attempts: number;
+    attempts?: number;
   };
   created_at: string;
   updated_at: string;

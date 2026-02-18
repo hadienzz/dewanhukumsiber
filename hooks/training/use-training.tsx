@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import axiosInstance from "@/lib/axios";
 import {
   getPublishedTrainings,
   getTrainingDetail,
@@ -139,13 +140,14 @@ export const useAdminTrainings = (params?: AdminTrainingParams) => {
   return useQuery({
     queryKey: ["admin", "trainings", params],
     queryFn: async () => {
-      const queryParams = new URLSearchParams();
-      if (params?.page) queryParams.set("page", params.page.toString());
-      if (params?.limit) queryParams.set("limit", params.limit.toString());
-      if (params?.status) queryParams.set("status", params.status);
-      
-      const response = await fetch(`/api/trainings/admin?${queryParams.toString()}`);
-      const data = await response.json();
+      const requestParams: Record<string, string | number> = {};
+      if (params?.page) requestParams.page = params.page;
+      if (params?.limit) requestParams.limit = params.limit;
+      if (params?.status) requestParams.status = params.status;
+
+      const { data } = await axiosInstance.get<any>("/api/trainings/admin", {
+        params: requestParams,
+      });
       return {
         trainings: data.data?.trainings ?? [],
         total: data.data?.total ?? 0,
@@ -162,11 +164,10 @@ export const usePublishTraining = () => {
 
   return useMutation({
     mutationFn: async (trainingId: string) => {
-      const response = await fetch(`/api/trainings/admin/${trainingId}/publish`, {
-        method: "POST",
-      });
-      if (!response.ok) throw new Error("Failed to publish");
-      return response.json();
+      const { data } = await axiosInstance.post<any>(
+        `/api/trainings/admin/${trainingId}/publish`,
+      );
+      return data;
     },
     onSuccess: () => {
       toast.success("Training berhasil dipublish");
@@ -183,11 +184,10 @@ export const useDeleteTraining = () => {
 
   return useMutation({
     mutationFn: async (trainingId: string) => {
-      const response = await fetch(`/api/trainings/admin/${trainingId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete");
-      return response.json();
+      const { data } = await axiosInstance.delete<any>(
+        `/api/trainings/admin/${trainingId}`,
+      );
+      return data;
     },
     onSuccess: () => {
       toast.success("Training berhasil dihapus");

@@ -6,28 +6,17 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  Crown,
-  GraduationCap,
   Home,
   LayoutDashboard,
   LogOut,
   Menu,
-  Settings,
   Users,
   X,
-  Calendar,
   Presentation,
   Loader2,
   CreditCard,
-  Video,
-  FileQuestion,
-  MessageCircle,
-  Award,
-  User,
-  BarChart3,
 } from "lucide-react";
 import useGetUser from "@/hooks/auth/use-get-user";
 import AccessDenied from "@/components/access-denied";
@@ -38,16 +27,16 @@ interface DashboardLayoutProps {
 }
 
 // Menu untuk Member
-const memberNavigation = [
-  { name: "Beranda", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Membership", href: "/dashboard/membership", icon: CreditCard },
-  { name: "Pelatihan Saya", href: "/dashboard/trainings", icon: BookOpen },
-  { name: "Live Class", href: "/dashboard/live-class", icon: Video },
-  { name: "Ujian", href: "/dashboard/exams", icon: FileQuestion },
-  { name: "Diskusi", href: "/dashboard/discussions", icon: MessageCircle },
-  { name: "Sertifikat", href: "/dashboard/certificates", icon: Award },
-  { name: "Profil", href: "/dashboard/profile", icon: User },
-];
+// const memberNavigation = [
+//   { name: "Beranda", href: "/dashboard", icon: LayoutDashboard },
+//   { name: "Membership", href: "/dashboard/membership", icon: CreditCard },
+//   { name: "Pelatihan Saya", href: "/dashboard/trainings", icon: BookOpen },
+//   { name: "Live Class", href: "/dashboard/live-class", icon: Video },
+//   { name: "Ujian", href: "/dashboard/exams", icon: FileQuestion },
+//   { name: "Diskusi", href: "/dashboard/discussions", icon: MessageCircle },
+//   { name: "Sertifikat", href: "/dashboard/certificates", icon: Award },
+//   { name: "Profil", href: "/dashboard/profile", icon: User },
+// ];
 
 // Menu untuk Admin
 const adminNavigation = [
@@ -58,13 +47,13 @@ const adminNavigation = [
     name: "Pelatihan & Workshop",
     href: "/dashboard/training",
     icon: Presentation,
-  },
-  { name: "Live Sessions", href: "/dashboard/sessions", icon: Calendar },
-  { name: "Zoom Manager", href: "/dashboard/zoom", icon: Video },
-  { name: "Ujian", href: "/dashboard/exams-admin", icon: FileQuestion },
-  { name: "Bank Soal", href: "/dashboard/questions", icon: Crown },
-  { name: "Laporan", href: "/dashboard/reports", icon: BarChart3 },
-  { name: "Pengaturan", href: "/dashboard/settings", icon: Settings },
+  }, // DINAMIS TARO DI DB
+  // { name: "Live Sessions", href: "/dashboard/sessions", icon: Calendar },
+  // { name: "Zoom Manager", href: "/dashboard/zoom", icon: Video },
+  // { name: "Ujian", href: "/dashboard/exams-admin", icon: FileQuestion },
+  // { name: "Bank Soal", href: "/dashboard/questions", icon: Crown },
+  // { name: "Laporan", href: "/dashboard/reports", icon: BarChart3 },
+  // { name: "Pengaturan", href: "/dashboard/settings", icon: Settings },
 ];
 
 // Gunakan admin navigation untuk dashboard (bisa disesuaikan berdasarkan role)

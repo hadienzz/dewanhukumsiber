@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCallback, useEffect, useRef, useState } from "react";
+import axiosInstance from "@/lib/axios";
 import {
   getMyExams,
   getExamForUser,
@@ -13,6 +14,7 @@ import {
   getMyExamResults,
   reportTabChange,
   SaveAnswerPayload,
+  ExamWithAttemptInfo,
 } from "@/services/exam";
 import { getErrorMessage } from "@/utils/error";
 import { ExamQuestion } from "@/types/api.types";
@@ -22,7 +24,7 @@ import { ExamQuestion } from "@/types/api.types";
 // ==================
 
 export const useMyExams = () => {
-  return useQuery({
+  return useQuery<ExamWithAttemptInfo[]>({
     queryKey: ["exams", "my"],
     queryFn: async () => {
       const response = await getMyExams();
@@ -338,14 +340,15 @@ export const useAdminExams = (params?: AdminExamParams) => {
   return useQuery({
     queryKey: ["admin", "exams", params],
     queryFn: async () => {
-      const queryParams = new URLSearchParams();
-      if (params?.page) queryParams.set("page", params.page.toString());
-      if (params?.limit) queryParams.set("limit", params.limit.toString());
-      if (params?.trainingId) queryParams.set("training_id", params.trainingId);
-      if (params?.isPublished !== undefined) queryParams.set("is_published", String(params.isPublished));
-      
-      const response = await fetch(`/api/exams/admin/all?${queryParams.toString()}`);
-      const data = await response.json();
+      const requestParams: Record<string, string | number | boolean> = {};
+      if (params?.page) requestParams.page = params.page;
+      if (params?.limit) requestParams.limit = params.limit;
+      if (params?.trainingId) requestParams.training_id = params.trainingId;
+      if (params?.isPublished !== undefined) requestParams.is_published = params.isPublished;
+
+      const { data } = await axiosInstance.get<any>("/api/exams/admin/all", {
+        params: requestParams,
+      });
       return {
         exams: data.data?.exams ?? [],
         total: data.data?.total ?? 0,
@@ -362,11 +365,10 @@ export const usePublishExam = () => {
 
   return useMutation({
     mutationFn: async (examId: string) => {
-      const response = await fetch(`/api/exams/admin/${examId}/publish`, {
-        method: "POST",
-      });
-      if (!response.ok) throw new Error("Failed to publish");
-      return response.json();
+      const { data } = await axiosInstance.post<any>(
+        `/api/exams/admin/${examId}/publish`,
+      );
+      return data;
     },
     onSuccess: () => {
       toast.success("Ujian berhasil dipublish");
@@ -383,11 +385,10 @@ export const useDeleteExam = () => {
 
   return useMutation({
     mutationFn: async (examId: string) => {
-      const response = await fetch(`/api/exams/admin/${examId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete");
-      return response.json();
+      const { data } = await axiosInstance.delete<any>(
+        `/api/exams/admin/${examId}`,
+      );
+      return data;
     },
     onSuccess: () => {
       toast.success("Ujian berhasil dihapus");

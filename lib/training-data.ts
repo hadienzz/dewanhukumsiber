@@ -14,7 +14,8 @@ export interface TrainingSession {
   date: string;
   end_date?: string;
   time: string;
-  end_time: string;
+  end_time?: string;
+  duration?: string;
   location: string;
   is_online: boolean;
   instructor: {
@@ -32,6 +33,16 @@ export interface TrainingSession {
   benefits: string[];
   rating?: number;
   total_reviews?: number;
+
+  // Aliases (some dashboard components use camelCase)
+  shortDescription?: string;
+  fullDescription?: string;
+  endDate?: string;
+  endTime?: string;
+  isOnline?: boolean;
+  maxParticipants?: number;
+  enrolledParticipants?: number;
+  totalReviews?: number;
 }
 
 export interface TrainingReview {

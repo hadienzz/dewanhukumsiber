@@ -1,20 +1,21 @@
-import { CourseForm } from "@/components/dashboard/workshop-form"
-import { getCourseById } from "@/lib/courses-data"
-import { notFound } from "next/navigation"
+// import { CourseForm } from "@/components/dashboard/workshop-form"
+import { CourseForm } from "@/components/dashboard/workshop-form";
+import { getCourseById } from "@/lib/courses-data";
+import { notFound } from "next/navigation";
 
 interface EditCoursePageProps {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }
 
 export default async function EditCoursePage({ params }: EditCoursePageProps) {
-  const { id } = await params
-  const course = getCourseById(id)
+  const { id } = await params;
+  const course = getCourseById(id);
 
   if (!course) {
-    notFound()
+    notFound();
   }
 
-  return <CourseForm course={course} mode="edit" />
+  return <CourseForm course={course} mode="edit" />;
 }

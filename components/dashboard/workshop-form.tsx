@@ -20,7 +20,7 @@ interface WorkshopFormProps {
   mode: "create" | "edit";
 }
 
-export function WorkshopForm({ mode }: WorkshopFormProps) {
+export function CourseForm({ mode }: WorkshopFormProps) {
   const { formik, isPending } = useCreateWorkshop();
 
   return (
@@ -85,7 +85,7 @@ export function WorkshopForm({ mode }: WorkshopFormProps) {
                   onChange={(value) => formik.setFieldValue("category", value)}
                 />
                 <PriceField
-                  value={formik.values.credit_price}
+                  value={formik.values.credit_price.toString()}
                   error={formik.errors.credit_price as string | undefined}
                   onChange={(value) =>
                     formik.setFieldValue("credit_price", value)

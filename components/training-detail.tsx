@@ -54,8 +54,11 @@ interface TrainingDetailProps {
 
 export default function TrainingDetail({ training }: TrainingDetailProps) {
   const reviews = getReviewsByTrainingId(training.id);
+  const enrolledParticipants =
+    training.enrolledParticipants ?? training.enrolled_participants ?? 0;
+  const maxParticipants = training.maxParticipants ?? training.max_participants ?? 0;
   const participantProgress =
-    (training.enrolledParticipants / training.maxParticipants) * 100;
+    maxParticipants > 0 ? (enrolledParticipants / maxParticipants) * 100 : 0;
 
   // Calculate rating distribution (mock data)
   const ratingDistribution = [
@@ -424,19 +427,19 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                               <div className="relative w-12 h-12 rounded-full overflow-hidden bg-muted">
                                 <Image
                                   src={
-                                    review.reviewerAvatar || "/placeholder.svg"
+                                    review.reviewer_avatar || "/placeholder.svg"
                                   }
-                                  alt={review.reviewerName}
+                                  alt={review.reviewer_name}
                                   fill
                                   className="object-cover"
                                 />
                               </div>
                               <div>
                                 <p className="font-semibold">
-                                  {review.reviewerName}
+                                  {review.reviewer_name}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                  {review.reviewerRole}
+                                  {review.reviewer_role}
                                 </p>
                               </div>
                             </div>

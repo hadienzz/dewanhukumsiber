@@ -3,13 +3,7 @@
 import { useParalegals } from "@/hooks/paralegal/use-paralegal";
 import { formatName } from "@/utils/format-name";
 import { getGoogleDriveImageUrl } from "@/utils/google-drive-image";
-import {
-  Search,
-  MapPin,
-  Shield,
-  Users,
-  Mail,
-} from "lucide-react";
+import { Search, MapPin, Shield, Users, Mail } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,9 +18,7 @@ export default function ParalegalListPage() {
   // Daftar wilayah unik
   const wilayahList = useMemo(() => {
     if (!paralegals) return [];
-    const set = new Set(
-      paralegals.map((p) => p.rencana_kantor_wilayah.trim()),
-    );
+    const set = new Set(paralegals.map((p) => p.rencana_kantor_wilayah.trim()));
     return Array.from(set).sort();
   }, [paralegals]);
 
@@ -45,32 +37,34 @@ export default function ParalegalListPage() {
   }, [paralegals, search, selectedWilayah]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-primary py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-primary via-primary to-primary/80" />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-foreground/10 mb-6">
-            <Shield className="h-8 w-8 text-primary-foreground" />
+      <section className="bg-primary relative overflow-hidden py-16 md:py-24">
+        <div className="from-primary via-primary to-primary/80 absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))]" />
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="bg-primary-foreground/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl">
+            <Shield className="text-primary-foreground h-8 w-8" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4 text-balance">
+          <h1 className="text-primary-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
             Paralegal DHSI
           </h1>
-          <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto text-balance">
-            Daftar paralegal yang terdaftar di Dewan Hukum Siber Indonesia,
-            siap memberikan bantuan hukum di seluruh wilayah Indonesia.
+          <p className="text-primary-foreground/80 mx-auto max-w-2xl text-lg text-balance md:text-xl">
+            Daftar paralegal yang terdaftar di Dewan Hukum Siber Indonesia, siap
+            memberikan bantuan hukum di seluruh wilayah Indonesia.
           </p>
 
           {/* Stats */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
-            <div className="flex items-center gap-2 text-primary-foreground/90">
+            <div className="text-primary-foreground/90 flex items-center gap-2">
               <Users className="h-5 w-5" />
               <span className="text-lg font-semibold">
                 {paralegals?.length ?? "—"}
               </span>
-              <span className="text-primary-foreground/70">Paralegal Terdaftar</span>
+              <span className="text-primary-foreground/70">
+                Paralegal Terdaftar
+              </span>
             </div>
-            <div className="flex items-center gap-2 text-primary-foreground/90">
+            <div className="text-primary-foreground/90 flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               <span className="text-lg font-semibold">
                 {wilayahList.length || "—"}
@@ -82,12 +76,12 @@ export default function ParalegalListPage() {
       </section>
 
       {/* Search & Filter */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-8">
-        <Card className="shadow-lg border-0">
+      <section className="mx-auto -mt-8 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Card className="border-0 shadow-lg">
           <CardContent className="p-4 md:p-6">
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col gap-4 md:flex-row">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
                   placeholder="Cari berdasarkan nama..."
                   value={search}
@@ -98,7 +92,7 @@ export default function ParalegalListPage() {
               <select
                 value={selectedWilayah}
                 onChange={(e) => setSelectedWilayah(e.target.value)}
-                className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="border-input bg-background ring-offset-background focus:ring-ring rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
               >
                 <option value="all">Semua Wilayah</option>
                 {wilayahList.map((w) => (
@@ -113,29 +107,29 @@ export default function ParalegalListPage() {
       </section>
 
       {/* Content */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <Card key={i} className="animate-pulse">
                 <CardContent className="p-6">
-                  <div className="mx-auto h-28 w-28 rounded-full bg-muted mb-4" />
-                  <div className="h-5 bg-muted rounded w-3/4 mx-auto mb-2" />
-                  <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-2" />
-                  <div className="h-4 bg-muted rounded w-2/3 mx-auto" />
+                  <div className="bg-muted mx-auto mb-4 h-28 w-28 rounded-full" />
+                  <div className="bg-muted mx-auto mb-2 h-5 w-3/4 rounded" />
+                  <div className="bg-muted mx-auto mb-2 h-4 w-1/2 rounded" />
+                  <div className="bg-muted mx-auto h-4 w-2/3 rounded" />
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : isError ? (
-          <div className="text-center py-16">
+          <div className="py-16 text-center">
             <p className="text-destructive text-lg">
               Gagal memuat data paralegal. Silakan coba lagi.
             </p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <div className="py-16 text-center">
+            <Users className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground text-lg">
               Tidak ada paralegal yang ditemukan.
             </p>
@@ -143,9 +137,10 @@ export default function ParalegalListPage() {
         ) : (
           <>
             <p className="text-muted-foreground mb-6 text-sm">
-              Menampilkan {filtered.length} dari {paralegals?.length ?? 0} paralegal
+              Menampilkan {filtered.length} dari {paralegals?.length ?? 0}{" "}
+              paralegal
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filtered.map((paralegal) => {
                 const imageUrl = getGoogleDriveImageUrl(
                   paralegal.upload_foto_formal,
@@ -161,7 +156,7 @@ export default function ParalegalListPage() {
                 return (
                   <Card
                     key={paralegal.id}
-                    className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+                    className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   >
                     <CardContent className="p-6 text-center">
                       {/* Avatar */}
@@ -171,32 +166,31 @@ export default function ParalegalListPage() {
                             src={imageUrl}
                             alt={name}
                             fill
-                            className="rounded-full object-cover ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all"
-                            unoptimized
+                            className="ring-primary/10 group-hover:ring-primary/30 rounded-full object-cover ring-4 transition-all"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center rounded-full bg-linear-to-br from-primary/80 to-primary text-2xl font-bold text-primary-foreground ring-4 ring-primary/10">
+                          <div className="from-primary/80 to-primary text-primary-foreground ring-primary/10 flex h-full w-full items-center justify-center rounded-full bg-linear-to-br text-2xl font-bold ring-4">
                             {initials}
                           </div>
                         )}
                       </div>
 
                       {/* Name */}
-                      <h3 className="text-foreground font-semibold text-lg mb-1 line-clamp-2">
+                      <h3 className="text-foreground mb-1 line-clamp-2 text-lg font-semibold">
                         {name}
                       </h3>
 
                       {/* Role Badge */}
                       <Badge
                         variant="secondary"
-                        className="mb-3 bg-primary/10 text-primary hover:bg-primary/20"
+                        className="bg-primary/10 text-primary hover:bg-primary/20 mb-3"
                       >
-                        <Shield className="h-3 w-3 mr-1" />
+                        <Shield className="mr-1 h-3 w-3" />
                         {paralegal.sebagai}
                       </Badge>
 
                       {/* Location */}
-                      <div className="flex items-center justify-center gap-1 text-muted-foreground text-sm">
+                      <div className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
                         <MapPin className="h-3.5 w-3.5 shrink-0" />
                         <span className="line-clamp-1">
                           {paralegal.rencana_kantor_wilayah}
@@ -206,10 +200,10 @@ export default function ParalegalListPage() {
                       {/* Email */}
                       <a
                         href={`mailto:${paralegal.email_address}`}
-                        className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
+                        className="text-muted-foreground hover:text-primary mt-2 inline-flex items-center gap-1 text-xs transition-colors"
                       >
                         <Mail className="h-3 w-3" />
-                        <span className="truncate max-w-[180px]">
+                        <span className="max-w-[180px] truncate">
                           {paralegal.email_address}
                         </span>
                       </a>

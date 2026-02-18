@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,7 +12,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -21,8 +27,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  TrainingSession,
-  filterTrainings,
   formatDate,
   getStatusLabel,
   getTypeLabel,
@@ -30,6 +34,8 @@ import {
   trainingStatusOptions,
   trainingCategoryOptions,
 } from "@/lib/training-data";
+import { useGetWorkshops } from "@/hooks/workshop/use-get-workshops";
+import { formatPrice } from "@/utils/format-price";
 import {
   ChevronLeft,
   ChevronRight,
@@ -42,7 +48,6 @@ import {
   Trash2,
   Calendar,
   Users,
-  MapPin,
   Video,
   Building2,
   Star,
@@ -51,7 +56,29 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface TrainingListProps {
-  trainings: TrainingSession[];
+  trainings?: TrainingListItem[];
+}
+
+interface TrainingListItem {
+  id: string;
+  title: string;
+  shortDescription: string;
+  type: "pelatihan" | "workshop";
+  status: "upcoming" | "ongoing" | "completed";
+  thumbnail: string;
+  date: string;
+  time: string;
+  location: string;
+  isOnline: boolean;
+  instructor: {
+    name: string;
+  };
+  category: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  maxParticipants: number;
+  enrolledParticipants: number;
+  price: string;
+  rating?: number;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -59,6 +86,7 @@ const ITEMS_PER_PAGE = 6;
 export function TrainingList({
   trainings: initialTrainings,
 }: TrainingListProps) {
+  const { workshops, isLoading, isError } = useGetWorkshops();
   const [viewMode, setViewMode] = useState<"table" | "card">("table");
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
@@ -66,16 +94,60 @@ export function TrainingList({
   const [categoryFilter, setCategoryFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredTrainings = filterTrainings(
-    searchTerm,
-    typeFilter,
-    statusFilter,
-    categoryFilter
-  );
+  const trainings: TrainingListItem[] = useMemo(() => {
+    if (initialTrainings && initialTrainings.length > 0)
+      return initialTrainings;
+
+    return (workshops ?? []).map((workshop) => ({
+      id: workshop.id,
+      title: workshop.title,
+      shortDescription: workshop.short_description ?? "",
+      type: "pelatihan",
+      status: "upcoming",
+      thumbnail: workshop.thumbnail ?? "/placeholder.svg",
+      date: workshop.created_at,
+      time: "-",
+      location: "Online",
+      isOnline: true,
+      instructor: {
+        name: "Dewan Hukum Siber Indonesia",
+      },
+      category: workshop.category ?? "Pelatihan DHSI",
+      level: "Beginner",
+      maxParticipants: 25,
+      enrolledParticipants: 0,
+      price: typeof workshop.price === "number" ? formatPrice(workshop.price) : "-",
+    }));
+  }, [initialTrainings, workshops]);
+
+  const filteredTrainings = useMemo(() => {
+    return trainings.filter((training) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        training.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        training.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesType =
+        typeFilter === "" || typeFilter === "all" || training.type === typeFilter;
+
+      const matchesStatus =
+        statusFilter === "" ||
+        statusFilter === "all" ||
+        training.status === statusFilter;
+
+      const matchesCategory =
+        categoryFilter === "" ||
+        categoryFilter === "all" ||
+        training.category === categoryFilter;
+
+      return matchesSearch && matchesType && matchesStatus && matchesCategory;
+    });
+  }, [trainings, searchTerm, typeFilter, statusFilter, categoryFilter]);
+
   const totalPages = Math.ceil(filteredTrainings.length / ITEMS_PER_PAGE);
   const paginatedTrainings = filteredTrainings.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const handleDelete = (id: string) => {
@@ -125,15 +197,12 @@ export function TrainingList({
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Total Program</CardDescription>
-            <CardTitle className="text-3xl">
-              {initialTrainings.length}
-            </CardTitle>
+            <CardTitle className="text-3xl">{trainings.length}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">
-              {initialTrainings.filter((t) => t.type === "pelatihan").length}{" "}
-              Pelatihan,{" "}
-              {initialTrainings.filter((t) => t.type === "workshop").length}{" "}
+            <p className="text-muted-foreground text-xs">
+              {trainings.filter((t) => t.type === "pelatihan").length}{" "}
+              Pelatihan, {trainings.filter((t) => t.type === "workshop").length}{" "}
               Workshop
             </p>
           </CardContent>
@@ -142,35 +211,35 @@ export function TrainingList({
           <CardHeader className="pb-2">
             <CardDescription>Akan Datang</CardDescription>
             <CardTitle className="text-3xl text-blue-600">
-              {initialTrainings.filter((t) => t.status === "upcoming").length}
+              {trainings.filter((t) => t.status === "upcoming").length}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Program terjadwal</p>
+            <p className="text-muted-foreground text-xs">Program terjadwal</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Sedang Berlangsung</CardDescription>
             <CardTitle className="text-3xl text-amber-600">
-              {initialTrainings.filter((t) => t.status === "ongoing").length}
+              {trainings.filter((t) => t.status === "ongoing").length}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">Aktif saat ini</p>
+            <p className="text-muted-foreground text-xs">Aktif saat ini</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Total Peserta</CardDescription>
             <CardTitle className="text-3xl text-green-600">
-              {initialTrainings
+              {trainings
                 .reduce((acc, t) => acc + t.enrolledParticipants, 0)
                 .toLocaleString()}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Terdaftar di semua program
             </p>
           </CardContent>
@@ -180,7 +249,7 @@ export function TrainingList({
       {/* Filters */}
       <div className="flex flex-col gap-4 rounded-lg border bg-white p-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <Input
             placeholder="Cari pelatihan atau workshop..."
             value={searchTerm}
@@ -198,39 +267,62 @@ export function TrainingList({
               setTypeFilter(value);
               setCurrentPage(1);
             }}
-            options={[
-              { value: "all", label: "Semua Tipe" },
-              ...trainingTypeOptions,
-            ]}
-            placeholder="Tipe"
-            className="w-[140px]"
-          />
+          >
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Tipe" />
+            </SelectTrigger>
+            <SelectContent>
+              {[{ value: "all", label: "Semua Tipe" }, ...trainingTypeOptions].map(
+                (opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+
           <Select
             value={statusFilter}
             onValueChange={(value) => {
               setStatusFilter(value);
               setCurrentPage(1);
             }}
-            options={[
-              { value: "all", label: "Semua Status" },
-              ...trainingStatusOptions,
-            ]}
-            placeholder="Status"
-            className="w-40"
-          />
+          >
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {[{ value: "all", label: "Semua Status" }, ...trainingStatusOptions].map(
+                (opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+
           <Select
             value={categoryFilter}
             onValueChange={(value) => {
               setCategoryFilter(value);
               setCurrentPage(1);
             }}
-            options={[
-              { value: "all", label: "Semua Kategori" },
-              ...trainingCategoryOptions,
-            ]}
-            placeholder="Kategori"
-            className="w-[180px]"
-          />
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Kategori" />
+            </SelectTrigger>
+            <SelectContent>
+              {[{ value: "all", label: "Semua Kategori" }, ...trainingCategoryOptions].map(
+                (opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex items-center gap-1 rounded-md border p-1">
           <Button
@@ -259,8 +351,20 @@ export function TrainingList({
       </div>
 
       {/* Content */}
+      {isLoading && trainings.length === 0 && (
+        <div className="rounded-lg border bg-white p-6 text-center text-sm text-slate-600">
+          Memuat data pelatihan...
+        </div>
+      )}
+
+      {isError && trainings.length === 0 && (
+        <div className="rounded-lg border bg-white p-6 text-center text-sm text-red-600">
+          Gagal memuat data pelatihan
+        </div>
+      )}
+
       {viewMode === "table" ? (
-        <div className="rounded-lg border bg-white overflow-x-auto">
+        <div className="overflow-x-auto rounded-lg border bg-white">
           <Table>
             <TableHeader>
               <TableRow>
@@ -279,7 +383,7 @@ export function TrainingList({
                 <TableRow key={training.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="relative h-10 w-14 overflow-hidden rounded bg-muted shrink-0">
+                      <div className="bg-muted relative h-10 w-14 shrink-0 overflow-hidden rounded">
                         <Image
                           src={training.thumbnail || "/placeholder.svg"}
                           alt={training.title}
@@ -288,10 +392,10 @@ export function TrainingList({
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-slate-900 line-clamp-1">
+                        <p className="line-clamp-1 font-medium text-slate-900">
                           {training.title}
                         </p>
-                        <p className="text-sm text-slate-500 line-clamp-1">
+                        <p className="line-clamp-1 text-sm text-slate-500">
                           {training.instructor.name}
                         </p>
                       </div>
@@ -353,7 +457,7 @@ export function TrainingList({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
                         onClick={() => handleDelete(training.id)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -410,7 +514,7 @@ export function TrainingList({
             <div className="flex items-center gap-1">
               {Array.from(
                 { length: Math.min(totalPages, 5) },
-                (_, i) => i + 1
+                (_, i) => i + 1,
               ).map((page) => (
                 <Button
                   key={page}
@@ -443,7 +547,7 @@ export function TrainingList({
 
 // Training Card Component
 interface TrainingCardProps {
-  training: TrainingSession;
+  training: TrainingListItem;
   onDelete: (id: string) => void;
 }
 
@@ -460,8 +564,8 @@ function TrainingCard({ training, onDelete }: TrainingCardProps) {
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <div className="relative h-40 w-full overflow-hidden bg-muted">
+    <Card className="overflow-hidden transition-shadow hover:shadow-lg">
+      <div className="bg-muted relative h-40 w-full overflow-hidden">
         <Image
           src={training.thumbnail || "/placeholder.svg"}
           alt={training.title}
@@ -478,7 +582,7 @@ function TrainingCard({ training, onDelete }: TrainingCardProps) {
         </div>
       </div>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base line-clamp-2">
+        <CardTitle className="line-clamp-2 text-base">
           {training.title}
         </CardTitle>
         <CardDescription className="line-clamp-2">
@@ -514,8 +618,8 @@ function TrainingCard({ training, onDelete }: TrainingCardProps) {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-between pt-2 border-t">
-          <span className="font-bold text-primary">{training.price}</span>
+        <div className="flex items-center justify-between border-t pt-2">
+          <span className="text-primary font-bold">{training.price}</span>
           <div className="flex items-center gap-1">
             <Link href={`/dashboard/training/${training.id}/preview`}>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -530,7 +634,7 @@ function TrainingCard({ training, onDelete }: TrainingCardProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+              className="h-8 w-8 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
               onClick={() => onDelete(training.id)}
             >
               <Trash2 className="h-4 w-4" />
