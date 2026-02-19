@@ -24,6 +24,7 @@ import {
   Phone,
 } from "lucide-react";
 import useRegister from "@/hooks/auth/use-register";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const {
@@ -55,13 +56,18 @@ export default function RegisterPage() {
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8 text-center">
-            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-teal-400 to-teal-600">
-              <Scale className="h-8 w-8 text-white" />
+            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white bg-linear-to-br shadow-lg">
+              <Image
+                className="text-white"
+                src={"/logo.png"}
+                height={64}
+                width={64}
+                alt="Logo DHSI"
+              />
             </div>
             <h1 className="text-2xl font-bold text-white">DHSI</h1>
-            <p className="text-slate-400">Digital Hukum & Security Indonesia</p>
+            <p className="text-slate-400">Dewan Hukum Siber Indonesia</p>
           </div>
-
           <Card>
             <CardHeader>
               <CardTitle className="text-center">Daftar Akun</CardTitle>

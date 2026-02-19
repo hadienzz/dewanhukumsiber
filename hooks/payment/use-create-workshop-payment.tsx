@@ -1,28 +1,41 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import createWorkshopPaymentRequest from "@/services/workshop/create-workshop-payment";
+import {
+  createWorkshopCheckout,
+  WorkshopCheckoutParams,
+} from "@/services/workshop/create-workshop-payment";
 
 const useCreateWorkshopPayment = () => {
+  const queryClient = useQueryClient();
+
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["workshop-checkout"],
-    mutationFn: (workshopId: string) => createWorkshopPaymentRequest(workshopId),
-    onError: () => {
-      toast.error("Gagal memproses pembayaran workshop.");
+    mutationFn: (params: WorkshopCheckoutParams) =>
+      createWorkshopCheckout(params),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["wallet"] });
+      queryClient.invalidateQueries({ queryKey: ["wallet", "transactions"] });
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        "Gagal memproses pembayaran workshop.";
+      toast.error(message);
     },
   });
 
-  const checkout = async (workshopId: string) => {
-    const response = await mutateAsync(workshopId);
-    const redirectUrl = response.data?.redirect_url;
+  const checkout = async (params: WorkshopCheckoutParams) => {
+    const response = await mutateAsync(params);
+    const token = response.data?.transaction_token;
 
-    if (!redirectUrl) {
-      toast.error("Gagal mendapatkan URL pembayaran.");
+    if (!token) {
+      toast.error("Gagal mendapatkan token pembayaran.");
       return null;
     }
 
-    return redirectUrl;
+    return token;
   };
 
   return {

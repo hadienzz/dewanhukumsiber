@@ -13,6 +13,7 @@ import CategoryField from "@/components/dashboard/course-category-field";
 import ThumbnailField from "@/components/dashboard/course-thumbnail-field";
 import CourseBenefitsField from "@/components/dashboard/course-benefits-field";
 import PriceField from "./course-duration-field";
+import MoneyPriceField from "./workshop-money-price-field";
 import useCreateWorkshop from "@/hooks/workshop/use-create-course";
 
 interface WorkshopFormProps {
@@ -83,6 +84,11 @@ export function CourseForm({ mode }: WorkshopFormProps) {
                   value={formik.values.category}
                   error={formik.errors.category as string | undefined}
                   onChange={(value) => formik.setFieldValue("category", value)}
+                />
+                <MoneyPriceField
+                  value={formik.values.price.toString()}
+                  error={formik.errors.price as string | undefined}
+                  onChange={(value) => formik.setFieldValue("price", value)}
                 />
                 <PriceField
                   value={formik.values.credit_price.toString()}

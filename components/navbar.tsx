@@ -15,6 +15,10 @@ import {
   Package,
   GraduationCap,
   Handshake,
+  Award,
+  Scale,
+  ChevronDown,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -54,13 +58,37 @@ export default function Navbar() {
               <Package className="h-4 w-4" />
               Paket
             </Link>
-            <Link
-              href="/paralegal"
-              className="text-foreground hover:text-primary flex items-center gap-1 transition"
-            >
-              <Shield className="h-4 w-4" />
-              Paralegal
-            </Link>
+            {/* Dropdown Anggota */}
+            <div className="group relative">
+              <button className="text-foreground hover:text-primary flex items-center gap-1 transition">
+                <Users className="h-4 w-4" />
+                Anggota
+                <ChevronDown className="h-3 w-3 transition-transform group-hover:rotate-180" />
+              </button>
+              <div className="pointer-events-none absolute top-full left-0 z-50 mt-2 w-48 rounded-lg border bg-white py-1 opacity-0 shadow-lg transition-all group-hover:pointer-events-auto group-hover:opacity-100">
+                <Link
+                  href="/advokat"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                >
+                  <Scale className="h-4 w-4" />
+                  Advokat
+                </Link>
+                <Link
+                  href="/keanggotaan"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                >
+                  <Award className="h-4 w-4" />
+                  Anggota
+                </Link>
+                <Link
+                  href="/paralegal"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                >
+                  <Shield className="h-4 w-4" />
+                  Paralegal
+                </Link>
+              </div>
+            </div>
             <Link
               href="/kalkulator-waris"
               className="text-foreground hover:text-primary flex items-center gap-1 transition"
@@ -202,14 +230,39 @@ export default function Navbar() {
               <Package className="h-4 w-4" />
               Paket
             </Link>
-            <Link
-              href="/paralegal"
-              className="text-foreground hover:text-primary flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <Shield className="h-4 w-4" />
-              Paralegal
-            </Link>
+            {/* Mobile Anggota Group */}
+            <div className="space-y-1">
+              <p className="text-foreground flex items-center gap-2 font-medium">
+                <Users className="h-4 w-4" />
+                Anggota
+              </p>
+              <div className="ml-6 space-y-2">
+                <Link
+                  href="/advokat"
+                  className="text-foreground hover:text-primary flex items-center gap-2 text-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Scale className="h-3.5 w-3.5" />
+                  Advokat
+                </Link>
+                <Link
+                  href="/keanggotaan"
+                  className="text-foreground hover:text-primary flex items-center gap-2 text-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Award className="h-3.5 w-3.5" />
+                  Anggota
+                </Link>
+                <Link
+                  href="/paralegal"
+                  className="text-foreground hover:text-primary flex items-center gap-2 text-sm"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Shield className="h-3.5 w-3.5" />
+                  Paralegal
+                </Link>
+              </div>
+            </div>
             <Link
               href="/kalkulator-waris"
               className="text-foreground hover:text-primary flex items-center gap-2"

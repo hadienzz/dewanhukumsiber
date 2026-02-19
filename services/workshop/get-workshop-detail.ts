@@ -23,6 +23,7 @@ export interface GetWorkshopDetailResponse {
     description: string;
     category: string;
     thumbnail: string;
+    price: number;
     credit_price: number;
     benefits: string[];
     created_at: string;

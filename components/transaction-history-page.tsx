@@ -208,11 +208,11 @@ export default function TransactionHistoryPage() {
       <div className="bg-linear-to-br from-teal-600 to-teal-700 pt-8 pb-24">
         <div className="mx-auto max-w-4xl px-4">
           <Link
-            href="/profile"
+            href="/"
             className="mb-6 inline-flex items-center gap-2 text-sm text-teal-100 transition-colors hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
-            Kembali ke Profil
+            Kembali ke halaman utama
           </Link>
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">

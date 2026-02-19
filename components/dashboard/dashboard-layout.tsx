@@ -17,6 +17,8 @@ import {
   Presentation,
   Loader2,
   CreditCard,
+  Award,
+  Scale,
 } from "lucide-react";
 import useGetUser from "@/hooks/auth/use-get-user";
 import AccessDenied from "@/components/access-denied";
@@ -43,11 +45,14 @@ const adminNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Users", href: "/dashboard/users", icon: Users },
   { name: "Membership", href: "/dashboard/membership-admin", icon: CreditCard },
+
   {
     name: "Pelatihan & Workshop",
     href: "/dashboard/training",
     icon: Presentation,
-  }, // DINAMIS TARO DI DB
+  },
+  { name: "Keanggotaan", href: "/dashboard/keanggotaan", icon: Award },
+  { name: "Advokat", href: "/dashboard/advokat", icon: Scale },
   // { name: "Live Sessions", href: "/dashboard/sessions", icon: Calendar },
   // { name: "Zoom Manager", href: "/dashboard/zoom", icon: Video },
   // { name: "Ujian", href: "/dashboard/exams-admin", icon: FileQuestion },

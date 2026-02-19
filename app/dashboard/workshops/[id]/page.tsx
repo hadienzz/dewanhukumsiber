@@ -61,7 +61,7 @@ export default function WorkshopDetailPage() {
   const workshopId = params?.id as string;
   const { workshop, isLoading } = useGetWorkshopDetail(workshopId);
   const { deleteModule, isDeleting } = useDeleteWorkshopModule(workshopId);
-console.log(workshop?.modules)
+
   return (
     <div className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
@@ -194,8 +194,8 @@ console.log(workshop?.modules)
                       Manfaat yang Didapat Peserta
                     </p>
                     <ul className="list-disc space-y-1 pl-5">
-                      {workshop.benefits.map((benefit) => (
-                        <li key={benefit}>{benefit}</li>
+                      {workshop.benefits.map((benefit, index) => (
+                        <li key={`benefit-${index}`}>{benefit}</li>
                       ))}
                     </ul>
                   </div>

@@ -28,9 +28,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Send,
+  CreditCard,
+  Wallet,
 } from "lucide-react";
 import useGetWorkshopDetail from "@/hooks/workshop/use-get-workshop-detail";
 import useGetUser from "@/hooks/auth/use-get-user";
+import useWallet from "@/hooks/wallet/use-wallet";
 import { formatDate, getTypeLabel } from "@/lib/training-data";
 import { moduleTypeLabels } from "@/types/course-module";
 import { useParams, useRouter } from "next/navigation";
@@ -40,7 +43,15 @@ import {
   useWorkshopRatings,
   useSubmitWorkshopRating,
 } from "@/hooks/workshop/use-workshop-rating";
+import { formatPrice } from "@/utils/format-price";
 import { useState } from "react";
+import { toast } from "sonner";
+
+declare global {
+  interface Window {
+    snap: any;
+  }
+}
 
 // ── Star Rating Component ──
 function StarRating({
@@ -89,8 +100,14 @@ export default function WorkshopDetailPage() {
     id as string,
   );
   const { hasLoggedin } = useGetUser();
+  const { activeBalance } = useWallet();
   const { checkout, isProcessing } = useCreateWorkshopPayment();
   const buyWithCredits = useBuyWorkshopCredits();
+
+  // Payment method state: "money" | "hybrid" | "credit"
+  const [paymentMethod, setPaymentMethod] = useState<
+    "money" | "hybrid" | "credit"
+  >("money");
 
   // Rating state
   const [ratingPage, setRatingPage] = useState(1);
@@ -112,6 +129,26 @@ export default function WorkshopDetailPage() {
     callback();
   };
 
+  // Compute hybrid values
+  const creditValuePerUnit =
+    workshop && workshop.credit_price > 0
+      ? workshop.price / workshop.credit_price
+      : 0;
+  const hybridCreditsUsed = workshop
+    ? Math.min(activeBalance, workshop.credit_price)
+    : 0;
+  const hybridMoneyAmount = workshop
+    ? Math.max(
+        0,
+        workshop.price - Math.floor(hybridCreditsUsed * creditValuePerUnit),
+      )
+    : 0;
+
+  const canPayFullCredit =
+    workshop && activeBalance >= workshop.credit_price;
+  const canPayHybrid =
+    workshop && activeBalance > 0 && activeBalance < workshop.credit_price;
+
   const handleCheckout = async () => {
     if (!workshop || !id || typeof id !== "string") return;
 
@@ -120,10 +157,41 @@ export default function WorkshopDetailPage() {
       return;
     }
 
-    const redirectUrl = await checkout(id);
-    if (!redirectUrl) return;
+    if (paymentMethod === "credit") {
+      buyWithCredits.mutate(id);
+      return;
+    }
 
-    window.location.href = redirectUrl;
+    const token = await checkout({
+      workshop_id: id,
+      payment_method: paymentMethod,
+      credits_to_use: paymentMethod === "hybrid" ? hybridCreditsUsed : 0,
+    });
+    if (!token) return;
+
+    if (!window.snap) {
+      // snap.js should be loaded from layout.tsx
+      toast.error("Pembayaran belum siap. Coba refresh halaman.");
+      return;
+    }
+
+    window.snap.pay(token, {
+      onSuccess: () => {
+        toast.success("Pembayaran berhasil!");
+        router.push("/kelas");
+      },
+      onPending: () => {
+        toast.info("Pembayaran menunggu konfirmasi.");
+      },
+      onError: () => {
+        toast.error("Pembayaran gagal.");
+      },
+      onClose: () => {
+        toast.error(
+          "Anda menutup popup pembayaran tanpa menyelesaikan pembayaran.",
+        );
+      },
+    });
   };
 
   const handleSubmitRating = () => {
@@ -546,48 +614,175 @@ export default function WorkshopDetailPage() {
                         </>
                       ) : (
                         <>
-                          {/* Not purchased — show price and buy buttons */}
-                          <div className="text-center">
-                            <p className="text-3xl font-bold text-amber-600">
-                              {workshop.credit_price} Kredit
+                          {/* Price display */}
+                          <div className="text-center space-y-1">
+                            {workshop.price > 0 && (
+                              <p className="text-3xl font-bold text-slate-800">
+                                {formatPrice(workshop.price)}
+                              </p>
+                            )}
+                            <p className="text-lg font-semibold text-amber-600">
+                              atau {workshop.credit_price} Kredit
                             </p>
                             <p className="text-muted-foreground text-xs">
                               Akses penuh workshop
                             </p>
                           </div>
 
+                          <Separator />
+
+                          {/* Payment method selection */}
+                          <div className="space-y-2">
+                            <p className="text-sm font-semibold">
+                              Pilih Metode Pembayaran
+                            </p>
+
+                            {/* Option 1: Full Money */}
+                            {workshop.price > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => setPaymentMethod("money")}
+                                className={`w-full rounded-lg border p-3 text-left transition-all ${
+                                  paymentMethod === "money"
+                                    ? "border-blue-500 bg-blue-50 ring-1 ring-blue-500"
+                                    : "hover:border-slate-300"
+                                }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                                      paymentMethod === "money"
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-slate-100 text-slate-500"
+                                    }`}
+                                  >
+                                    <CreditCard size={16} />
+                                  </div>
+                                  <div className="flex-1">
+                                    <p className="text-sm font-medium">
+                                      Bayar Penuh
+                                    </p>
+                                    <p className="text-muted-foreground text-xs">
+                                      {formatPrice(workshop.price)}
+                                    </p>
+                                  </div>
+                                </div>
+                              </button>
+                            )}
+
+                            {/* Option 2: Hybrid (money + credit) */}
+                            {workshop.price > 0 && canPayHybrid && (
+                              <button
+                                type="button"
+                                onClick={() => setPaymentMethod("hybrid")}
+                                className={`w-full rounded-lg border p-3 text-left transition-all ${
+                                  paymentMethod === "hybrid"
+                                    ? "border-purple-500 bg-purple-50 ring-1 ring-purple-500"
+                                    : "hover:border-slate-300"
+                                }`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                                      paymentMethod === "hybrid"
+                                        ? "bg-purple-500 text-white"
+                                        : "bg-slate-100 text-slate-500"
+                                    }`}
+                                  >
+                                    <Wallet size={16} />
+                                  </div>
+                                  <div className="flex-1">
+                                    <p className="text-sm font-medium">
+                                      Uang + Kredit
+                                    </p>
+                                    <p className="text-muted-foreground text-xs">
+                                      {formatPrice(hybridMoneyAmount)} +{" "}
+                                      {hybridCreditsUsed} Kredit
+                                    </p>
+                                  </div>
+                                </div>
+                              </button>
+                            )}
+
+                            {/* Option 3: Full Credit */}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                canPayFullCredit && setPaymentMethod("credit")
+                              }
+                              disabled={!canPayFullCredit}
+                              className={`w-full rounded-lg border p-3 text-left transition-all ${
+                                paymentMethod === "credit"
+                                  ? "border-amber-500 bg-amber-50 ring-1 ring-amber-500"
+                                  : !canPayFullCredit
+                                    ? "cursor-not-allowed opacity-50"
+                                    : "hover:border-slate-300"
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                                    paymentMethod === "credit"
+                                      ? "bg-amber-500 text-white"
+                                      : "bg-slate-100 text-slate-500"
+                                  }`}
+                                >
+                                  <Coins size={16} />
+                                </div>
+                                <div className="flex-1">
+                                  <p className="text-sm font-medium">
+                                    Bayar dengan Kredit
+                                  </p>
+                                  <p className="text-muted-foreground text-xs">
+                                    {workshop.credit_price} Kredit
+                                    {!canPayFullCredit && (
+                                      <span className="ml-1 text-red-500">
+                                        (saldo: {activeBalance})
+                                      </span>
+                                    )}
+                                  </p>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+
+                          {/* Checkout button */}
                           <Button
                             size="lg"
-                            className="w-full gap-2 bg-amber-500 hover:bg-amber-600"
-                            onClick={() =>
-                              requireAuth(() => {
-                                if (id && typeof id === "string") {
-                                  buyWithCredits.mutate(id);
-                                }
-                              })
+                            className={`w-full gap-2 ${
+                              paymentMethod === "credit"
+                                ? "bg-amber-500 hover:bg-amber-600"
+                                : paymentMethod === "hybrid"
+                                  ? "bg-purple-600 hover:bg-purple-700"
+                                  : "bg-blue-600 hover:bg-blue-700"
+                            }`}
+                            onClick={() => requireAuth(handleCheckout)}
+                            disabled={
+                              isProcessing || buyWithCredits.isPending
                             }
-                            disabled={buyWithCredits.isPending}
                           >
-                            {buyWithCredits.isPending ? (
+                            {isProcessing || buyWithCredits.isPending ? (
                               <>
                                 <Loader2 className="h-4 w-4 animate-spin" />
                                 Memproses...
                               </>
-                            ) : (
+                            ) : paymentMethod === "credit" ? (
                               <>
                                 <Coins className="h-4 w-4" />
                                 Beli dengan {workshop.credit_price} Kredit
                               </>
+                            ) : paymentMethod === "hybrid" ? (
+                              <>
+                                <Wallet className="h-4 w-4" />
+                                Bayar {formatPrice(hybridMoneyAmount)} +{" "}
+                                {hybridCreditsUsed} Kredit
+                              </>
+                            ) : (
+                              <>
+                                <CreditCard className="h-4 w-4" />
+                                Bayar {formatPrice(workshop.price)}
+                              </>
                             )}
-                          </Button>
-
-                          <Button
-                            size="lg"
-                            className="w-full"
-                            onClick={handleCheckout}
-                            disabled={isProcessing}
-                          >
-                            {isProcessing ? "Memproses..." : "Daftar Sekarang"}
                           </Button>
                         </>
                       )}

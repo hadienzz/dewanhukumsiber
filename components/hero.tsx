@@ -55,11 +55,11 @@ export default function Hero() {
               className="rounded-2xl object-fill shadow-xl"
             /> */}
             <Image
-              src={"/logo.webp"}
+              src={"/logo.jpeg"}
               alt="Logo DHSI"
               fill
               priority
-              className="rounded-2xl object-fill"
+              className="rounded-2xl object-fill bg-black"
             />
           </div>
 

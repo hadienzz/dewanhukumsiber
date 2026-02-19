@@ -1,29 +1,29 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Coins } from "lucide-react";
+import { CreditCard } from "lucide-react";
 
-export interface PriceFieldProps {
+export interface MoneyPriceFieldProps {
   value: string;
   error?: string;
   onChange: (value: string) => void;
 }
 
-export default function PriceField({
+export default function MoneyPriceField({
   value,
   error,
   onChange,
-}: PriceFieldProps) {
+}: MoneyPriceFieldProps) {
   return (
     <div className="space-y-2">
-      <Label htmlFor="credit_price">
-        Harga Kredit Workshop <span className="text-red-500">*</span>
+      <Label htmlFor="price">
+        Harga Uang (IDR) <span className="text-red-500">*</span>
       </Label>
       <div className="relative">
-        <Coins className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        <CreditCard className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <Input
-          name="credit_price"
-          id="credit_price"
-          placeholder="Contoh: 50"
+          name="price"
+          id="price"
+          placeholder="Contoh: 300000"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={`pl-9 ${error ? "border-red-500" : ""}`}

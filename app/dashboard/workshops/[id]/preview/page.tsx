@@ -1,20 +1,23 @@
-import { CourseDetail } from "@/components/dashboard/course-detail"
-import { getCourseById } from "@/lib/courses-data"
-import { notFound } from "next/navigation"
+"use client";
 
-interface PreviewCoursePageProps {
-  params: Promise<{
-    id: string
-  }>
-}
+import { CourseDetail } from "@/components/dashboard/course-detail";
+import useGetWorkshopDetail from "@/hooks/workshop/use-get-workshop-detail";
+import { getCourseById } from "@/lib/courses-data";
+import { notFound, useParams } from "next/navigation";
 
-export default async function PreviewCoursePage({ params }: PreviewCoursePageProps) {
-  const { id } = await params
-  const course = getCourseById(id)
-
-  if (!course) {
-    notFound()
+const PreviewCoursePage = () => {
+  const { id } = useParams();
+  // const course = getCourseById(id as string);
+  const { isLoading, workshop, workshopNotFound } = useGetWorkshopDetail(
+    id as string,
+  );
+  console.log(workshop);
+  if (workshopNotFound) {
+    notFound();
   }
 
-  return <CourseDetail course={course} isPreview />
-}
+  return <>baru testing ajah</>;
+  // return <CourseDetail course={workshop} isPreview />;
+};
+
+export default PreviewCoursePage;
