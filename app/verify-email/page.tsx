@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Mail, Loader2, Scale, RefreshCw } from "lucide-react";
 import useVerification from "@/hooks/auth/use-verification";
+import { useLanguage } from "@/lib/language-context";
 
 export default function VerifyEmailPage() {
   const {
@@ -27,6 +28,7 @@ export default function VerifyEmailPage() {
   } = useVerification();
 
   const isCodeComplete = code.every((digit) => digit !== "");
+  const { t } = useLanguage();
 
   return (
     <div className="flex min-h-screen flex-col bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -37,7 +39,7 @@ export default function VerifyEmailPage() {
           className="inline-flex items-center text-sm text-slate-300 transition-colors hover:text-white"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali ke Login
+          {t("Kembali ke Login", "Back to Login")}
         </Link>
       </div>
 
@@ -59,11 +61,13 @@ export default function VerifyEmailPage() {
                 <Mail className="h-6 w-6 text-teal-600" />
               </div>
               <CardTitle className="text-center text-2xl">
-                Verifikasi Email
+                {t("Verifikasi Email", "Email Verification")}
               </CardTitle>
               <CardDescription className="text-center">
-                Kami telah mengirimkan kode verifikasi 6 digit ke email Anda.
-                Masukkan kode tersebut di bawah ini.
+                {t(
+                  "Kami telah mengirimkan kode verifikasi 6 digit ke email Anda. Masukkan kode tersebut di bawah ini.",
+                  "We have sent a 6-digit verification code to your email. Enter the code below."
+                )}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -99,17 +103,17 @@ export default function VerifyEmailPage() {
                 {isVerifying ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Memverifikasi...
+                    {t("Memverifikasi...", "Verifying...")}
                   </>
                 ) : (
-                  "Verifikasi"
+                  t("Verifikasi", "Verify")
                 )}
               </Button>
 
               {/* Resend */}
               <div className="mt-6 text-center">
                 <p className="mb-2 text-sm text-slate-500">
-                  Tidak menerima kode?
+                  {t("Tidak menerima kode?", "Didn't receive the code?")}
                 </p>
                 <button
                   onClick={handleResend}
@@ -119,17 +123,17 @@ export default function VerifyEmailPage() {
                   {isResending ? (
                     <>
                       <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-                      Mengirim...
+                      {t("Mengirim...", "Sending...")}
                     </>
                   ) : cooldown > 0 ? (
                     <>
                       <RefreshCw className="mr-1 h-3 w-3" />
-                      Kirim ulang ({cooldown}s)
+                      {t("Kirim ulang", "Resend")} ({cooldown}s)
                     </>
                   ) : (
                     <>
                       <RefreshCw className="mr-1 h-3 w-3" />
-                      Kirim Ulang Kode
+                      {t("Kirim Ulang Kode", "Resend Code")}
                     </>
                   )}
                 </button>
@@ -138,10 +142,10 @@ export default function VerifyEmailPage() {
               {/* Info */}
               <div className="mt-6 rounded-lg bg-slate-50 p-3 text-sm">
                 <p className="text-slate-600">
-                  <span className="font-medium">Tips:</span> Cek folder{" "}
-                  <span className="font-medium">Inbox</span> dan{" "}
-                  <span className="font-medium">Spam</span> di email Anda. Kode
-                  berlaku selama 10 menit.
+                  <span className="font-medium">{t("Tips:", "Tips:")}</span> {t(
+                    "Cek folder Inbox dan Spam di email Anda. Kode berlaku selama 10 menit.",
+                    "Check your Inbox and Spam folders. The code is valid for 10 minutes."
+                  )}
                 </p>
               </div>
             </CardContent>

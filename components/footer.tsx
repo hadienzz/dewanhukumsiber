@@ -1,8 +1,13 @@
+"use client";
+
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/language-context";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-card border-border border-t">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -19,12 +24,14 @@ export default function Footer() {
                 />
               </div>
               <span className="text-foreground text-lg font-bold">
-                Dewan Hukum Siber Indonesia
+                {t("Dewan Hukum Siber Indonesia", "Indonesian Cyber Law Council")}
               </span>
             </div>
             <p className="text-muted-foreground text-sm">
-              Forum kolaborasi nasional untuk penguatan regulasi, penegakan
-              hukum, dan tata kelola ruang siber Indonesia.
+              {t(
+                "Forum kolaborasi nasional untuk penguatan regulasi, penegakan hukum, dan tata kelola ruang siber Indonesia.",
+                "National collaboration forum for strengthening regulations, law enforcement, and governance of Indonesia's cyberspace."
+              )}
             </p>
             <div className="mt-4 flex gap-4">
               <a
@@ -56,14 +63,14 @@ export default function Footer() {
 
           {/* Program */}
           <div>
-            <h3 className="text-foreground mb-4 font-semibold">Program</h3>
+            <h3 className="text-foreground mb-4 font-semibold">{t("Program", "Programs")}</h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Regulasi & Tata Kelola Siber
+                  {t("Regulasi & Tata Kelola Siber", "Cyber Regulation & Governance")}
                 </a>
               </li>
               <li>
@@ -71,7 +78,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Forensik & Pembuktian Digital
+                  {t("Forensik & Pembuktian Digital", "Digital Forensics & Evidence")}
                 </a>
               </li>
               <li>
@@ -79,7 +86,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Manajemen Insiden & Krisis
+                  {t("Manajemen Insiden & Krisis", "Incident & Crisis Management")}
                 </a>
               </li>
               <li>
@@ -87,7 +94,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Etika, Privasi, & Hak Digital
+                  {t("Etika, Privasi, & Hak Digital", "Ethics, Privacy, & Digital Rights")}
                 </a>
               </li>
             </ul>
@@ -95,14 +102,14 @@ export default function Footer() {
 
           {/* Dewan */}
           <div>
-            <h3 className="text-foreground mb-4 font-semibold">Dewan</h3>
+            <h3 className="text-foreground mb-4 font-semibold">{t("Dewan", "Council")}</h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Profil & Mandat
+                  {t("Profil & Mandat", "Profile & Mandate")}
                 </a>
               </li>
               <li>
@@ -110,7 +117,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Berita & Publikasi
+                  {t("Berita & Publikasi", "News & Publications")}
                 </a>
               </li>
               <li>
@@ -118,7 +125,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Struktur & Keanggotaan
+                  {t("Struktur & Keanggotaan", "Structure & Membership")}
                 </a>
               </li>
               <li>
@@ -126,7 +133,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Hubungi Sekretariat
+                  {t("Hubungi Sekretariat", "Contact Secretariat")}
                 </a>
               </li>
             </ul>
@@ -157,7 +164,7 @@ export default function Footer() {
                   href="#"
                   className="text-muted-foreground hover:text-primary text-sm transition"
                 >
-                  Kebijakan Keamanan Informasi
+                  {t("Kebijakan Keamanan Informasi", "Information Security Policy")}
                 </a>
               </li>
               <li>
@@ -176,10 +183,13 @@ export default function Footer() {
 
         <div className="mt-8 flex flex-col items-center justify-between md:flex-row">
           <p className="text-muted-foreground text-sm">
-            © 2025 Dewan Hukum Siber Indonesia.
+            © 2025 {t("Dewan Hukum Siber Indonesia", "Indonesian Cyber Law Council")}.
           </p>
           <p className="text-muted-foreground text-sm">
-            Berkolaborasi untuk ruang digital yang aman dan berkeadilan.
+            {t(
+              "Berkolaborasi untuk ruang digital yang aman dan berkeadilan.",
+              "Collaborating for a safe and just digital space."
+            )}
           </p>
         </div>
       </div>

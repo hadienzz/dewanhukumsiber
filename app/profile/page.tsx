@@ -37,9 +37,11 @@ import {
 import useGetProfile from "@/hooks/profile/use-get-profile";
 import useUpdateProfile from "@/hooks/profile/use-update-profile";
 import useGetUser from "@/hooks/auth/use-get-user";
+import { useLanguage } from "@/lib/language-context";
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const { data: authUser, hasLoggedin, isLoading: authLoading } = useGetUser();
   const { data: profile, isLoading: profileLoading } = useGetProfile();
   const [tab, setTab] = useState("info");
@@ -95,9 +97,9 @@ export default function ProfilePage() {
   if (!hasLoggedin || !authUser) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
-        <p className="text-slate-600">Anda harus login untuk melihat profil.</p>
+        <p className="text-slate-600">{t("Anda harus login untuk melihat profil.", "You must log in to view your profile.")}</p>
         <Link href="/login">
-          <Button>Masuk</Button>
+          <Button>{t("Masuk", "Log In")}</Button>
         </Link>
       </div>
     );
@@ -175,7 +177,7 @@ export default function ProfilePage() {
             className="mb-4 flex items-center gap-1 text-sm text-teal-100 transition hover:text-white"
           >
             <ArrowLeft className="h-4 w-4" />
-            Kembali
+            {t("Kembali", "Back")}
           </button>
 
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
@@ -224,7 +226,7 @@ export default function ProfilePage() {
                   onClick={() => setIsEditing(true)}
                 >
                   <Edit2 className="mr-2 h-4 w-4" />
-                  Edit Profil
+                  {t("Edit Profil", "Edit Profile")}
                 </Button>
               ) : (
                 <div className="flex gap-2">
@@ -238,7 +240,7 @@ export default function ProfilePage() {
                     ) : (
                       <Save className="mr-2 h-4 w-4" />
                     )}
-                    Simpan
+                    {t("Simpan", "Save")}
                   </Button>
                   <Button
                     variant="outline"
@@ -247,7 +249,7 @@ export default function ProfilePage() {
                     disabled={isUpdating}
                   >
                     <X className="mr-2 h-4 w-4" />
-                    Batal
+                    {t("Batal", "Cancel")}
                   </Button>
                 </div>
               )}
@@ -260,8 +262,8 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <Tabs value={tab} onValueChange={setTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="info" >Informasi Pribadi</TabsTrigger>
-            <TabsTrigger value="address">Alamat</TabsTrigger>
+            <TabsTrigger value="info" >{t("Informasi Pribadi", "Personal Information")}</TabsTrigger>
+            <TabsTrigger value="address">{t("Alamat", "Address")}</TabsTrigger>
           </TabsList>
 
           {/* Tab: Informasi Pribadi */}
@@ -270,10 +272,10 @@ export default function ProfilePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <User className="h-5 w-5 text-teal-600" />
-                  Data Diri
+                  {t("Data Diri", "Personal Data")}
                 </CardTitle>
                 <CardDescription>
-                  Informasi dasar akun Anda di Dewan Hukum Siber Indonesia
+                  {t("Informasi dasar akun Anda di Dewan Hukum Siber Indonesia", "Your basic account information at Dewan Hukum Siber Indonesia")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
@@ -284,7 +286,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 text-sm font-medium text-slate-600"
                   >
                     <User className="h-4 w-4" />
-                    Nama Lengkap
+                    {t("Nama Lengkap", "Full Name")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -293,7 +295,7 @@ export default function ProfilePage() {
                       onChange={(e) =>
                         setEditData({ ...editData, username: e.target.value })
                       }
-                      placeholder="Masukkan nama lengkap"
+                      placeholder={t("Masukkan nama lengkap", "Enter your full name")}
                     />
                   ) : (
                     <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -306,12 +308,12 @@ export default function ProfilePage() {
                 <div className="grid gap-2">
                   <Label className="flex items-center gap-2 text-sm font-medium text-slate-600">
                     <Mail className="h-4 w-4" />
-                    Email
+                    {t("Email", "Email")}
                   </Label>
                   <p className="rounded-lg bg-slate-100 px-4 py-2.5 text-slate-500">
                     {profile?.email || "-"}
                     <span className="ml-2 text-xs text-slate-400">
-                      (tidak dapat diubah)
+                      {t("(tidak dapat diubah)", "(cannot be changed)")}
                     </span>
                   </p>
                 </div>
@@ -323,7 +325,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 text-sm font-medium text-slate-600"
                   >
                     <Phone className="h-4 w-4" />
-                    No. Telepon
+                    {t("No. Telepon", "Phone Number")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -332,7 +334,7 @@ export default function ProfilePage() {
                       onChange={(e) =>
                         setEditData({ ...editData, phone: e.target.value })
                       }
-                      placeholder="Masukkan nomor telepon"
+                      placeholder={t("Masukkan nomor telepon", "Enter your phone number")}
                     />
                   ) : (
                     <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -348,7 +350,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 text-sm font-medium text-slate-600"
                   >
                     <Calendar className="h-4 w-4" />
-                    Tanggal Lahir
+                    {t("Tanggal Lahir", "Date of Birth")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -378,7 +380,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 text-sm font-medium text-slate-600"
                   >
                     <Briefcase className="h-4 w-4" />
-                    Pekerjaan
+                    {t("Pekerjaan", "Occupation")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -390,7 +392,7 @@ export default function ProfilePage() {
                           occupation: e.target.value,
                         })
                       }
-                      placeholder="Contoh: Advokat, Mahasiswa Hukum"
+                      placeholder={t("Contoh: Advokat, Mahasiswa Hukum", "Example: Lawyer, Law Student")}
                     />
                   ) : (
                     <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -406,7 +408,7 @@ export default function ProfilePage() {
                     className="flex items-center gap-2 text-sm font-medium text-slate-600"
                   >
                     <Building className="h-4 w-4" />
-                    Institusi / Organisasi
+                    {t("Institusi / Organisasi", "Institution / Organization")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -418,7 +420,7 @@ export default function ProfilePage() {
                           institution: e.target.value,
                         })
                       }
-                      placeholder="Contoh: Universitas Indonesia"
+                      placeholder={t("Contoh: Universitas Indonesia", "Example: Universitas Indonesia")}
                     />
                   ) : (
                     <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -435,7 +437,7 @@ export default function ProfilePage() {
                     htmlFor="bio"
                     className="text-sm font-medium text-slate-600"
                   >
-                    Bio
+                    {t("Bio", "Bio")}
                   </Label>
                   {isEditing ? (
                     <Textarea
@@ -444,13 +446,13 @@ export default function ProfilePage() {
                       onChange={(e) =>
                         setEditData({ ...editData, bio: e.target.value })
                       }
-                      placeholder="Ceritakan sedikit tentang diri Anda..."
+                      placeholder={t("Ceritakan sedikit tentang diri Anda...", "Tell us a little about yourself...")}
                       rows={4}
                       maxLength={500}
                     />
                   ) : (
                     <p className="min-h-[60px] rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
-                      {profile?.bio || "Belum ada bio."}
+                      {profile?.bio || t("Belum ada bio.", "No bio yet.")}
                     </p>
                   )}
                   {isEditing && (
@@ -467,14 +469,14 @@ export default function ProfilePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Clock className="h-5 w-5 text-teal-600" />
-                  Informasi Akun
+                  {t("Informasi Akun", "Account Information")}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="rounded-lg bg-slate-50 p-4">
                     <p className="text-xs font-medium text-slate-500">
-                      Bergabung Sejak
+                      {t("Bergabung Sejak", "Joined Since")}
                     </p>
                     <p className="mt-1 font-medium text-slate-900">
                       {formatDate(profile?.created_at || null)}
@@ -482,12 +484,12 @@ export default function ProfilePage() {
                   </div>
                   <div className="rounded-lg bg-slate-50 p-4">
                     <p className="text-xs font-medium text-slate-500">
-                      Terakhir Diperbarui
+                      {t("Terakhir Diperbarui", "Last Updated")}
                     </p>
                     <p className="mt-1 font-medium text-slate-900">
                       {profile?.updated_at
                         ? formatDate(profile.updated_at)
-                        : "Belum pernah"}
+                        : t("Belum pernah", "Never")}
                     </p>
                   </div>
                 </div>
@@ -501,10 +503,10 @@ export default function ProfilePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <MapPin className="h-5 w-5 text-teal-600" />
-                  Alamat
+                  {t("Alamat", "Address")}
                 </CardTitle>
                 <CardDescription>
-                  Informasi alamat tempat tinggal Anda
+                  {t("Informasi alamat tempat tinggal Anda", "Your residential address information")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
@@ -514,7 +516,7 @@ export default function ProfilePage() {
                     htmlFor="address"
                     className="text-sm font-medium text-slate-600"
                   >
-                    Alamat Lengkap
+                    {t("Alamat Lengkap", "Full Address")}
                   </Label>
                   {isEditing ? (
                     <Textarea
@@ -523,7 +525,7 @@ export default function ProfilePage() {
                       onChange={(e) =>
                         setEditData({ ...editData, address: e.target.value })
                       }
-                      placeholder="Masukkan alamat lengkap"
+                      placeholder={t("Masukkan alamat lengkap", "Enter your full address")}
                       rows={3}
                     />
                   ) : (
@@ -540,7 +542,7 @@ export default function ProfilePage() {
                       htmlFor="city"
                       className="text-sm font-medium text-slate-600"
                     >
-                      Kota / Kabupaten
+                      {t("Kota / Kabupaten", "City / District")}
                     </Label>
                     {isEditing ? (
                       <Input
@@ -549,7 +551,7 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setEditData({ ...editData, city: e.target.value })
                         }
-                        placeholder="Contoh: Jakarta Selatan"
+                        placeholder={t("Contoh: Jakarta Selatan", "Example: South Jakarta")}
                       />
                     ) : (
                       <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -564,7 +566,7 @@ export default function ProfilePage() {
                       htmlFor="province"
                       className="text-sm font-medium text-slate-600"
                     >
-                      Provinsi
+                      {t("Provinsi", "Province")}
                     </Label>
                     {isEditing ? (
                       <Input
@@ -576,7 +578,7 @@ export default function ProfilePage() {
                             province: e.target.value,
                           })
                         }
-                        placeholder="Contoh: DKI Jakarta"
+                        placeholder={t("Contoh: DKI Jakarta", "Example: DKI Jakarta")}
                       />
                     ) : (
                       <p className="rounded-lg bg-slate-50 px-4 py-2.5 text-slate-900">
@@ -592,7 +594,7 @@ export default function ProfilePage() {
                     htmlFor="postal_code"
                     className="text-sm font-medium text-slate-600"
                   >
-                    Kode Pos
+                    {t("Kode Pos", "Postal Code")}
                   </Label>
                   {isEditing ? (
                     <Input
@@ -604,7 +606,7 @@ export default function ProfilePage() {
                           postal_code: e.target.value,
                         })
                       }
-                      placeholder="Contoh: 12345"
+                      placeholder={t("Contoh: 12345", "Example: 12345")}
                       maxLength={10}
                     />
                   ) : (

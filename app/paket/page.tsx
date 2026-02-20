@@ -27,6 +27,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import usePayment from "@/hooks/payment/use-payment";
 import { formatPrice } from "@/utils/format-price";
+import { useLanguage } from "@/lib/language-context";
 
 /* ============================= */
 /* Skeleton Card Component */
@@ -77,6 +78,7 @@ const PackageCardSkeleton = () => {
 const PaketPage = () => {
   const { isLoading: isUserLoading, hasLoggedin } = useGetUser();
   const { handleCreatePayment, isPaymentError, isPending } = usePayment();
+  const { t } = useLanguage();
 
   const {
     data: creditPackages,
@@ -116,17 +118,18 @@ const PaketPage = () => {
             </Badge>
 
             <h1 className="text-foreground mb-3 text-3xl font-bold md:text-4xl">
-              Tingkatkan Akses Belajar dengan Kredit
+              {t("Tingkatkan Akses Belajar dengan Kredit", "Enhance Your Learning Access with Credits")}
             </h1>
 
             <p className="text-muted-foreground mx-auto max-w-2xl text-sm md:text-base">
-              Top up kredit untuk mengakses kelas, pelatihan, dan fitur
-              eksklusif di DHSI. Semakin besar paket yang Anda pilih, semakin
-              besar bonus kredit yang didapatkan.
+              {t(
+                "Top up kredit untuk mengakses kelas, pelatihan, dan fitur eksklusif di DHSI. Semakin besar paket yang Anda pilih, semakin besar bonus kredit yang didapatkan.",
+                "Top up credits to access classes, training, and exclusive features at DHSI. The bigger the package you choose, the bigger the bonus credits you get."
+              )}
             </p>
 
             <p className="text-muted-foreground mt-3 text-xs md:text-sm">
-              Untuk melanjutkan pembelian, Anda perlu login terlebih dahulu.
+              {t("Untuk melanjutkan pembelian, Anda perlu login terlebih dahulu.", "To continue purchasing, you need to login first.")}
             </p>
           </div>
 
@@ -138,8 +141,10 @@ const PaketPage = () => {
             <div className="flex items-center gap-2">
               <ShieldCheck className="text-primary h-4 w-4" />
               <span>
-                Semua transaksi paket kredit diproses dengan aman dan dapat
-                digunakan untuk berbagai program pelatihan DHSI.
+                {t(
+                  "Semua transaksi paket kredit diproses dengan aman dan dapat digunakan untuk berbagai program pelatihan DHSI.",
+                  "All credit package transactions are processed securely and can be used for various DHSI training programs."
+                )}
               </span>
             </div>
 
@@ -148,7 +153,7 @@ const PaketPage = () => {
                 Bonus hingga 20% kredit
               </span>
               <span className="bg-background/80 text-muted-foreground hidden rounded-full px-3 py-1 sm:inline">
-                Masa aktif hingga 60 hari
+                {t("Masa aktif hingga 60 hari", "Valid for up to 60 days")}
               </span>
             </div>
           </div>
@@ -159,7 +164,7 @@ const PaketPage = () => {
 
           {isError && (
             <div className="text-muted-foreground mb-6 text-center text-sm">
-              Gagal memuat paket. Silakan refresh halaman.
+              {t("Gagal memuat paket. Silakan refresh halaman.", "Failed to load packages. Please refresh the page.")}
             </div>
           )}
 
@@ -187,8 +192,8 @@ const PaketPage = () => {
                           }
                         >
                           {pkg.highlight === "popular"
-                            ? "Paling Populer"
-                            : "Paling Hemat"}
+                            ? t("Paling Populer", "Most Popular")
+                            : t("Paling Hemat", "Best Value")}
                         </Badge>
                       </div>
                     )}
@@ -205,7 +210,7 @@ const PaketPage = () => {
 
                         {!pkg.isCustom && (
                           <span className="text-muted-foreground text-xs">
-                            Satu kali pembayaran
+                            {t("Satu kali pembayaran", "One-time payment")}
                           </span>
                         )}
                       </div>
@@ -216,7 +221,7 @@ const PaketPage = () => {
                         <>
                           {pkg.credits !== undefined && (
                             <div className="flex items-center justify-between">
-                              <span>Kredit</span>
+                              <span>{t("Kredit", "Credits")}</span>
                               <span className="font-semibold">
                                 {pkg.credits}
                               </span>
@@ -247,7 +252,7 @@ const PaketPage = () => {
                           <div className="text-foreground flex items-center justify-between">
                             <span className="inline-flex items-center gap-1">
                               <Clock className="h-3.5 w-3.5" />
-                              Masa aktif
+                              {t("Masa aktif", "Validity")}
                             </span>
                             <span className="font-medium">{pkg.validity}</span>
                           </div>
@@ -270,12 +275,12 @@ const PaketPage = () => {
                       {pkg.isCustom ? (
                         hasLoggedin ? (
                           <Button className="w-full" variant="outline">
-                            Hubungi tim kami untuk paket custom
+                            {t("Hubungi tim kami untuk paket custom", "Contact our team for custom packages")}
                           </Button>
                         ) : (
                           <Button asChild className="w-full" variant="outline">
                             <Link href="/login?redirect=/paket">
-                              Login untuk ajukan paket custom
+                              {t("Login untuk ajukan paket custom", "Login to request custom package")}
                             </Link>
                           </Button>
                         )
@@ -287,20 +292,22 @@ const PaketPage = () => {
                           }
                           disabled={isPending}
                         >
-                          Beli Sekarang
+                          {t("Beli Sekarang", "Buy Now")}
                         </Button>
                       ) : (
                         <Button asChild className="w-full" variant="outline">
                           <Link href="/login?redirect=/paket">
-                            Login untuk Beli
+                            {t("Login untuk Beli", "Login to Buy")}
                           </Link>
                         </Button>
                       )}
 
                       {!hasLoggedin && !pkg.isCustom && (
                         <p className="text-muted-foreground/70 text-center text-[11px]">
-                          Anda akan diarahkan ke halaman login sebelum
-                          melanjutkan pembelian.
+                          {t(
+                            "Anda akan diarahkan ke halaman login sebelum melanjutkan pembelian.",
+                            "You will be redirected to the login page before continuing your purchase."
+                          )}
                         </p>
                       )}
                     </CardFooter>

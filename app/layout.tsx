@@ -24,6 +24,7 @@ export const metadata: Metadata = {
 };
 
 import TanstackProvider from "@/lib/tanstack-provider";
+import { LanguageProvider } from "@/lib/language-context";
 import { Toaster } from "sonner";
 import Script from "next/script";
 
@@ -36,7 +37,9 @@ export default function RootLayout({
     <html lang="id">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Toaster richColors position="bottom-right" />
-        <TanstackProvider>{children}</TanstackProvider>
+        <LanguageProvider>
+          <TanstackProvider>{children}</TanstackProvider>
+        </LanguageProvider>
         <Script
           src="https://app.sandbox.midtrans.com/snap/snap.js"
           data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}

@@ -23,9 +23,11 @@ import {
 } from "lucide-react";
 import useLogin from "@/hooks/auth/use-login";
 import Image from "next/image";
+import { useLanguage } from "@/lib/language-context";
 
 export default function LoginPage() {
   const { formik, showPassword, toggleShowPassword, isLoading } = useLogin();
+  const { t } = useLanguage();
   return (
     <div className="flex min-h-screen flex-col bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
@@ -35,7 +37,7 @@ export default function LoginPage() {
           className="inline-flex items-center text-sm text-slate-300 transition-colors hover:text-white"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali ke Beranda
+          {t("Kembali ke Beranda", "Back to Home")}
         </Link>
       </div>
 
@@ -59,9 +61,9 @@ export default function LoginPage() {
 
           <Card className="border-0 shadow-2xl">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-center text-2xl">Masuk</CardTitle>
+              <CardTitle className="text-center text-2xl">{t("Masuk", "Sign In")}</CardTitle>
               <CardDescription className="text-center">
-                Masuk ke akun Anda untuk mengakses semua fitur
+                {t("Masuk ke akun Anda untuk mengakses semua fitur", "Sign in to your account to access all features")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -100,7 +102,7 @@ export default function LoginPage() {
                       href="/forgot-password"
                       className="text-xs text-teal-600 hover:underline"
                     >
-                      Lupa password?
+                      {t("Lupa password?", "Forgot password?")}
                     </Link>
                   </div>
                   <div className="relative">
@@ -138,16 +140,16 @@ export default function LoginPage() {
                   {formik.isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Memproses...
+                      {t("Memproses...", "Processing...")}
                     </>
                   ) : (
-                    "Masuk"
+                    t("Masuk", "Sign In")
                   )}
                 </Button>
 
                 {/* Demo Credentials */}
                 <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm">
-                  <p className="mb-2 font-medium text-slate-700">Demo Akun:</p>
+                  <p className="mb-2 font-medium text-slate-700">{t("Demo Akun:", "Demo Account:")}</p>
                   <div className="space-y-1 text-slate-600">
                     <p>
                       <span className="font-medium">User:</span> user@dhsi.com /
@@ -163,12 +165,12 @@ export default function LoginPage() {
 
               {/* Register Link */}
               <div className="mt-6 text-center text-sm">
-                <span className="text-slate-500">Belum punya akun? </span>
+                <span className="text-slate-500">{t("Belum punya akun? ", "Don't have an account? ")}</span>
                 <Link
                   href="/register"
                   className="font-medium text-teal-600 hover:underline"
                 >
-                  Daftar sekarang
+                  {t("Daftar sekarang", "Register now")}
                 </Link>
               </div>
             </CardContent>

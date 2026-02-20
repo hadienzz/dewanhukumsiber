@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { ShieldX, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/lib/language-context";
 
 export default function AccessDenied() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 px-4">
       <div className="text-center">
@@ -15,13 +18,15 @@ export default function AccessDenied() {
 
         {/* Title */}
         <h1 className="mb-2 text-3xl font-bold text-white">
-          Halaman Ini Tidak Tersedia
+          {t("Halaman Ini Tidak Tersedia", "This Page is Not Available")}
         </h1>
 
         {/* Description */}
         <p className="mb-8 max-w-md text-slate-400">
-          Maaf, Anda tidak memiliki akses untuk melihat halaman ini. Halaman ini
-          hanya tersedia untuk administrator.
+          {t(
+            "Maaf, Anda tidak memiliki akses untuk melihat halaman ini. Halaman ini hanya tersedia untuk administrator.",
+            "Sorry, you do not have access to view this page. This page is only available for administrators."
+          )}
         </p>
 
         {/* Actions */}
@@ -29,7 +34,7 @@ export default function AccessDenied() {
           <Button asChild variant="default" className="gap-2">
             <Link href="/">
               <Home className="h-4 w-4" />
-              Kembali ke Beranda
+              {t("Kembali ke Beranda", "Back to Home")}
             </Link>
           </Button>
           <Button
@@ -39,7 +44,7 @@ export default function AccessDenied() {
           >
             <Link href="/login">
               <ArrowLeft className="h-4 w-4" />
-              Login dengan Akun Lain
+              {t("Login dengan Akun Lain", "Login with Another Account")}
             </Link>
           </Button>
         </div>

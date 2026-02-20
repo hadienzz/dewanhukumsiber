@@ -21,21 +21,23 @@ import {
   Building2,
 } from "lucide-react";
 import { upcomingWorkshops, formatDate } from "@/lib/training-data";
+import { useLanguage } from "@/lib/language-context";
 
 export default function UpcomingWorkshopSection() {
+  const { t } = useLanguage();
   return (
     <section id="upcoming-workshops" className="bg-muted py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <div className="bg-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2">
             <Calendar size={16} />
-            <span className="text-sm font-medium">Segera Hadir</span>
+            <span className="text-sm font-medium">{t("Segera Hadir", "Coming Soon")}</span>
           </div>
           <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
-            Pelatihan Mendatang
+            {t("Pelatihan Mendatang", "Upcoming Training")}
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-xl text-balance">
-            Praktik langsung dengan para pakar dalam pelatihan eksklusif kami.
+            {t("Praktik langsung dengan para pakar dalam pelatihan eksklusif kami.", "Hands-on practice with experts in our exclusive training programs.")}
           </p>
         </div>
 
@@ -58,7 +60,7 @@ export default function UpcomingWorkshopSection() {
                   {index === 0 && (
                     <div className="absolute top-3 left-3">
                       <Badge className="bg-primary text-primary-foreground">
-                        Terdekat
+                        {t("Terdekat", "Nearest")}
                       </Badge>
                     </div>
                   )}
@@ -98,7 +100,7 @@ export default function UpcomingWorkshopSection() {
                           </div>
                           <div>
                             <p className="text-muted-foreground text-sm">
-                              Tanggal
+                              {t("Tanggal", "Date")}
                             </p>
                             <p className="font-medium">
                               {formatDate(workshop.date)}
@@ -111,7 +113,7 @@ export default function UpcomingWorkshopSection() {
                           </div>
                           <div>
                             <p className="text-muted-foreground text-sm">
-                              Waktu
+                              {t("Waktu", "Time")}
                             </p>
                             <p className="font-medium">{workshop.time}</p>
                           </div>
@@ -124,7 +126,7 @@ export default function UpcomingWorkshopSection() {
                           </div>
                           <div>
                             <p className="text-muted-foreground text-sm">
-                              Lokasi
+                              {t("Lokasi", "Location")}
                             </p>
                             <p className="font-medium">{workshop.location}</p>
                           </div>
@@ -135,11 +137,11 @@ export default function UpcomingWorkshopSection() {
                           </div>
                           <div>
                             <p className="text-muted-foreground text-sm">
-                              Peserta
+                              {t("Peserta", "Participants")}
                             </p>
                             <p className="font-medium">
                               {workshop.enrolled_participants}/
-                              {workshop.max_participants} terdaftar
+                              {workshop.max_participants} {t("terdaftar", "enrolled")}
                             </p>
                           </div>
                         </div>
@@ -173,7 +175,7 @@ export default function UpcomingWorkshopSection() {
                         </span>
                         <Link href={`/training/${workshop.id}`}>
                           <Button className="gap-2">
-                            Daftar Sekarang <ArrowRight size={16} />
+                            {t("Daftar Sekarang", "Register Now")} <ArrowRight size={16} />
                           </Button>
                         </Link>
                       </div>

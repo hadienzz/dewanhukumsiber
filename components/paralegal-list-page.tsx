@@ -9,11 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { useLanguage } from "@/lib/language-context";
 
 export default function ParalegalListPage() {
   const { data: paralegals, isLoading, isError } = useParalegals();
   const [search, setSearch] = useState("");
   const [selectedWilayah, setSelectedWilayah] = useState<string>("all");
+  const { t } = useLanguage();
 
   // Daftar wilayah unik
   const wilayahList = useMemo(() => {
@@ -46,11 +48,13 @@ export default function ParalegalListPage() {
             <Shield className="text-primary-foreground h-8 w-8" />
           </div>
           <h1 className="text-primary-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
-            Paralegal DHSI
+            {t("Paralegal DHSI", "DHSI Paralegals")}
           </h1>
           <p className="text-primary-foreground/80 mx-auto max-w-2xl text-lg text-balance md:text-xl">
-            Daftar paralegal yang terdaftar di Dewan Hukum Siber Indonesia, siap
-            memberikan bantuan hukum di seluruh wilayah Indonesia.
+            {t(
+              "Daftar paralegal yang terdaftar di Dewan Hukum Siber Indonesia, siap memberikan bantuan hukum di seluruh wilayah Indonesia.",
+              "List of paralegals registered with the Indonesian Cyber Law Council, ready to provide legal assistance across all regions of Indonesia."
+            )}
           </p>
 
           {/* Stats */}
@@ -61,7 +65,7 @@ export default function ParalegalListPage() {
                 {paralegals?.length ?? "—"}
               </span>
               <span className="text-primary-foreground/70">
-                Paralegal Terdaftar
+                {t("Paralegal Terdaftar", "Registered Paralegals")}
               </span>
             </div>
             <div className="text-primary-foreground/90 flex items-center gap-2">
@@ -69,7 +73,7 @@ export default function ParalegalListPage() {
               <span className="text-lg font-semibold">
                 {wilayahList.length || "—"}
               </span>
-              <span className="text-primary-foreground/70">Wilayah</span>
+              <span className="text-primary-foreground/70">{t("Wilayah", "Regions")}</span>
             </div>
           </div>
         </div>
@@ -83,7 +87,7 @@ export default function ParalegalListPage() {
               <div className="relative flex-1">
                 <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
-                  placeholder="Cari berdasarkan nama..."
+                  placeholder={t("Cari berdasarkan nama...", "Search by name...")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10"
@@ -94,7 +98,7 @@ export default function ParalegalListPage() {
                 onChange={(e) => setSelectedWilayah(e.target.value)}
                 className="border-input bg-background ring-offset-background focus:ring-ring rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
               >
-                <option value="all">Semua Wilayah</option>
+                <option value="all">{t("Semua Wilayah", "All Regions")}</option>
                 {wilayahList.map((w) => (
                   <option key={w} value={w}>
                     {w}
@@ -124,20 +128,20 @@ export default function ParalegalListPage() {
         ) : isError ? (
           <div className="py-16 text-center">
             <p className="text-destructive text-lg">
-              Gagal memuat data paralegal. Silakan coba lagi.
+              {t("Gagal memuat data paralegal. Silakan coba lagi.", "Failed to load paralegal data. Please try again.")}
             </p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-16 text-center">
             <Users className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground text-lg">
-              Tidak ada paralegal yang ditemukan.
+              {t("Tidak ada paralegal yang ditemukan.", "No paralegals found.")}
             </p>
           </div>
         ) : (
           <>
             <p className="text-muted-foreground mb-6 text-sm">
-              Menampilkan {filtered.length} dari {paralegals?.length ?? 0}{" "}
+              {t("Menampilkan", "Showing")} {filtered.length} {t("dari", "of")} {paralegals?.length ?? 0}{" "}
               paralegal
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

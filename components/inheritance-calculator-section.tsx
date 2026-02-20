@@ -13,26 +13,35 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
+import { useLanguage } from "@/lib/language-context";
 
 export function InheritanceCalculatorSection() {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: Scale,
-      title: "Dua Sistem Hukum",
-      description:
+      title: t("Dua Sistem Hukum", "Two Legal Systems"),
+      description: t(
         "Pilih perhitungan berdasarkan Hukum Islam (Faraid) atau Hukum Perdata Indonesia",
+        "Choose calculations based on Islamic Law (Faraid) or Indonesian Civil Law"
+      ),
     },
     {
       icon: Users,
-      title: "Semua Ahli Waris",
-      description:
+      title: t("Semua Ahli Waris", "All Heirs"),
+      description: t(
         "Dukung berbagai hubungan keluarga: anak, orang tua, saudara, kakek/nenek",
+        "Support various family relations: children, parents, siblings, grandparents"
+      ),
     },
     {
       icon: BookOpen,
-      title: "Penjelasan Detail",
-      description:
+      title: t("Penjelasan Detail", "Detailed Explanation"),
+      description: t(
         "Setiap hasil dilengkapi dengan penjelasan dasar hukum yang jelas",
+        "Every result comes with a clear legal basis explanation"
+      ),
     },
   ];
 
@@ -58,28 +67,29 @@ export function InheritanceCalculatorSection() {
           <div className="space-y-6">
             <Badge className="bg-teal-500/20 text-teal-300 border-teal-500/30 hover:bg-teal-500/30">
               <Sparkles className="h-3 w-3 mr-1" />
-              Fitur Baru
+              {t("Fitur Baru", "New Feature")}
             </Badge>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-              Butuh Perhitungan{" "}
+              {t("Butuh Perhitungan", "Need an")}{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-blue-400">
-                Ahli Waris?
+                {t("Ahli Waris?", "Inheritance Calculation?")}
               </span>
             </h2>
 
             <p className="text-lg text-slate-300 leading-relaxed max-w-xl">
-              Hitung pembagian harta warisan secara akurat dengan kalkulator
-              digital kami. Pilih antara Hukum Islam (Faraid) atau Hukum Perdata
-              Indonesia sesuai kebutuhan Anda.
+              {t(
+                "Hitung pembagian harta warisan secara akurat dengan kalkulator digital kami. Pilih antara Hukum Islam (Faraid) atau Hukum Perdata Indonesia sesuai kebutuhan Anda.",
+                "Calculate inheritance distribution accurately with our digital calculator. Choose between Islamic Law (Faraid) or Indonesian Civil Law according to your needs."
+              )}
             </p>
 
             <div className="space-y-3">
               {[
-                "Perhitungan otomatis berdasarkan jumlah ahli waris",
-                "Mendukung berbagai skenario keluarga",
-                "Hasil dapat diunduh sebagai dokumen",
-                "Gratis dan mudah digunakan",
+                t("Perhitungan otomatis berdasarkan jumlah ahli waris", "Automatic calculation based on number of heirs"),
+                t("Mendukung berbagai skenario keluarga", "Supports various family scenarios"),
+                t("Hasil dapat diunduh sebagai dokumen", "Results can be downloaded as a document"),
+                t("Gratis dan mudah digunakan", "Free and easy to use"),
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-teal-400 shrink-0" />
@@ -95,7 +105,7 @@ export function InheritanceCalculatorSection() {
                   className="bg-teal-500 hover:bg-teal-600 text-white gap-2 shadow-lg shadow-teal-500/25"
                 >
                   <Calculator className="h-5 w-5" />
-                  Coba Sekarang
+                  {t("Coba Sekarang", "Try Now")}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -106,7 +116,7 @@ export function InheritanceCalculatorSection() {
                   className="border-slate-600 text-slate-800 hover:bg-slate-800 gap-2"
                 >
                   <BookOpen className="h-5 w-5" />
-                  Pelajari Lebih Lanjut
+                  {t("Pelajari Lebih Lanjut", "Learn More")}
                 </Button>
               </Link>
             </div>
@@ -141,15 +151,15 @@ export function InheritanceCalculatorSection() {
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
                     <p className="text-2xl font-bold text-white">2</p>
-                    <p className="text-xs text-slate-400">Sistem Hukum</p>
+                    <p className="text-xs text-slate-400">{t("Sistem Hukum", "Legal Systems")}</p>
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-white">15+</p>
-                    <p className="text-xs text-slate-400">Jenis Ahli Waris</p>
+                    <p className="text-xs text-slate-400">{t("Jenis Ahli Waris", "Types of Heirs")}</p>
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-white">100%</p>
-                    <p className="text-xs text-slate-400">Gratis</p>
+                    <p className="text-xs text-slate-400">{t("Gratis", "Free")}</p>
                   </div>
                 </div>
               </CardContent>

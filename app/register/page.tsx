@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import useRegister from "@/hooks/auth/use-register";
 import Image from "next/image";
+import { useLanguage } from "@/lib/language-context";
 
 export default function RegisterPage() {
   const {
@@ -34,6 +35,7 @@ export default function RegisterPage() {
     isLoading,
     registerIsDisabled,
   } = useRegister();
+  const { t } = useLanguage();
 
   const hasFormError =
     formik.submitCount > 0 && Object.keys(formik.errors).length > 0;
@@ -47,7 +49,7 @@ export default function RegisterPage() {
           className="inline-flex items-center text-sm text-slate-300 hover:text-white"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Kembali ke Beranda
+          {t("Kembali ke Beranda", "Back to Home")}
         </Link>
       </div>
 
@@ -70,9 +72,9 @@ export default function RegisterPage() {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">Daftar Akun</CardTitle>
+              <CardTitle className="text-center">{t("Daftar Akun", "Create Account")}</CardTitle>
               <CardDescription className="text-center">
-                Buat akun baru untuk mengakses semua fitur
+                {t("Buat akun baru untuk mengakses semua fitur", "Create a new account to access all features")}
               </CardDescription>
             </CardHeader>
 
@@ -82,18 +84,18 @@ export default function RegisterPage() {
                 {hasFormError && (
                   <div className="flex items-center gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-700">
                     <AlertCircle className="h-4 w-4" />
-                    <span>Mohon periksa kembali form</span>
+                    <span>{t("Mohon periksa kembali form", "Please check the form again")}</span>
                   </div>
                 )}
 
                 {/* Name */}
                 <div className="space-y-2">
-                  <Label>Nama Lengkap</Label>
+                  <Label>{t("Nama Lengkap", "Full Name")}</Label>
                   <div className="relative">
                     <User className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                     <Input
                       name="username"
-                      placeholder="Nama lengkap"
+                      placeholder={t("Nama lengkap", "Full name")}
                       className="pl-10"
                       value={formik.values.username}
                       onChange={formik.handleChange}
@@ -118,7 +120,7 @@ export default function RegisterPage() {
 
                 {/* Phone */}
                 <div className="space-y-2">
-                  <Label>Nomor Telepon</Label>
+                  <Label>{t("Nomor Telepon", "Phone Number")}</Label>
                   <div className="relative">
                     <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
                     <Input
@@ -165,18 +167,18 @@ export default function RegisterPage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Memproses...
+                      {t("Memproses...", "Processing...")}
                     </>
                   ) : (
-                    "Daftar"
+                    t("Daftar", "Register")
                   )}
                 </Button>
               </form>
 
               <div className="mt-6 text-center text-sm">
-                <span className="text-slate-500">Sudah punya akun? </span>
+                <span className="text-slate-500">{t("Sudah punya akun? ", "Already have an account? ")}</span>
                 <Link href="/login" className="font-medium text-teal-600">
-                  Masuk
+                  {t("Masuk", "Sign In")}
                 </Link>
               </div>
             </CardContent>

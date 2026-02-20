@@ -22,6 +22,7 @@ import useGetUser from "@/hooks/auth/use-get-user";
 import { useQuery } from "@tanstack/react-query";
 import { getMyWorkshops } from "@/services/workshop/get-my-workshops";
 import type { SelectedWorkshopItem } from "@/services/workshop/get-my-workshops";
+import { useLanguage } from "@/lib/language-context";
 
 function getWorkshopProgress(item: SelectedWorkshopItem) {
   const total = item.workshop.modules.length;
@@ -54,6 +55,7 @@ export default function KelasPage() {
   });
 
   const myWorkshops = data?.data ?? [];
+  const { t } = useLanguage();
 
   if (authLoading || isLoading) {
     return (
@@ -79,16 +81,16 @@ export default function KelasPage() {
               className="mb-4 inline-flex items-center text-sm text-slate-300 transition-colors hover:text-white"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Kembali ke Beranda
+              {t("Kembali ke Beranda", "Back to Home")}
             </Link>
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500 shadow-lg">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold md:text-3xl">Kelas Saya</h1>
+                <h1 className="text-2xl font-bold md:text-3xl">{t("Kelas Saya", "My Classes")}</h1>
                 <p className="text-slate-300">
-                  Workshop yang sudah Anda beli dan ikuti
+                  {t("Workshop yang sudah Anda beli dan ikuti", "Workshops you have purchased and joined")}
                 </p>
               </div>
             </div>
@@ -105,14 +107,14 @@ export default function KelasPage() {
                   <BookOpen className="h-8 w-8 text-slate-400" />
                 </div>
                 <h2 className="mb-2 text-xl font-bold text-slate-900">
-                  Anda belum memiliki kelas apapun
+                  {t("Anda belum memiliki kelas apapun", "You don't have any classes yet")}
                 </h2>
                 <p className="mb-6 text-sm text-slate-500">
-                  Jelajahi workshop yang tersedia dan mulai belajar sekarang
+                  {t("Jelajahi workshop yang tersedia dan mulai belajar sekarang", "Explore available workshops and start learning now")}
                 </p>
                 <Link href="/workshop">
                   <Button className="bg-teal-500 hover:bg-teal-600">
-                    Lihat Workshop
+                    {t("Lihat Workshop", "View Workshops")}
                   </Button>
                 </Link>
               </CardContent>
@@ -121,7 +123,7 @@ export default function KelasPage() {
             /* ─── Workshop Grid ─── */
             <>
               <p className="mb-6 text-sm text-slate-500">
-                {myWorkshops.length} workshop dimiliki
+                {myWorkshops.length} workshop {t("dimiliki", "owned")}
               </p>
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -151,7 +153,7 @@ export default function KelasPage() {
                         {isComplete && (
                           <Badge className="absolute top-3 right-3 gap-1 bg-green-500">
                             <CheckCircle className="h-3 w-3" />
-                            Selesai
+                            {t("Selesai", "Completed")}
                           </Badge>
                         )}
                       </div>
@@ -168,7 +170,7 @@ export default function KelasPage() {
                         <div className="mb-4 space-y-1.5">
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-slate-500">
-                              {completed}/{total} modul
+                              {completed}/{total} {t("modul", "modules")}
                             </span>
                             <span className="font-semibold text-teal-600">
                               {percentage}%
@@ -187,7 +189,7 @@ export default function KelasPage() {
                             }`}
                           >
                             <PlayCircle className="h-4 w-4" />
-                            {isComplete ? "Review Materi" : "Lanjutkan Belajar"}
+                            {isComplete ? t("Review Materi", "Review Material") : t("Lanjutkan Belajar", "Continue Learning")}
                           </Button>
                         </Link>
                       </CardContent>

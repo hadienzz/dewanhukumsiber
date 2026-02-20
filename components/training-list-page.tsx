@@ -16,11 +16,13 @@ import Link from "next/link";
 import { ArrowRight, Search, BookOpen, Loader2, Coins } from "lucide-react";
 import { useGetWorkshops } from "@/hooks/workshop/use-get-workshops";
 import type { WorkshopSummary } from "@/services/workshop/get-workshops";
+import { useLanguage } from "@/lib/language-context";
 
 export default function TrainingListPage() {
   const { workshops, isLoading, isError } = useGetWorkshops();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const { t } = useLanguage();
 
   const categories = [
     ...new Set(workshops.map((w) => w.category).filter(Boolean)),
@@ -44,11 +46,13 @@ export default function TrainingListPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-foreground mb-4 text-4xl font-bold md:text-5xl">
-              Katalog Pelatihan & Workshop
+              {t("Katalog Pelatihan & Workshop", "Training & Workshop Catalog")}
             </h1>
             <p className="text-muted-foreground mb-8 text-xl">
-              Temukan program pelatihan dan workshop terbaik untuk meningkatkan
-              kompetensi Anda di bidang hukum siber.
+              {t(
+                "Temukan program pelatihan dan workshop terbaik untuk meningkatkan kompetensi Anda di bidang hukum siber.",
+                "Find the best training and workshop programs to enhance your competence in cyber law."
+              )}
             </p>
 
             {/* Search */}
@@ -58,7 +62,7 @@ export default function TrainingListPage() {
                 size={20}
               />
               <Input
-                placeholder="Cari pelatihan atau workshop..."
+                placeholder={t("Cari pelatihan atau workshop...", "Search training or workshop...")}
                 className="py-6 pr-4 pl-12 text-lg"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -81,7 +85,7 @@ export default function TrainingListPage() {
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              Semua ({workshops.length})
+              {t("Semua", "All")} ({workshops.length})
             </button>
             {categories.map((cat) => (
               <button
@@ -102,7 +106,7 @@ export default function TrainingListPage() {
           {isLoading && (
             <div className="py-20 text-center">
               <Loader2 className="mx-auto h-8 w-8 animate-spin text-teal-500" />
-              <p className="text-muted-foreground mt-3">Memuat pelatihan...</p>
+              <p className="text-muted-foreground mt-3">{t("Memuat pelatihan...", "Loading training...")}</p>
             </div>
           )}
 
@@ -110,7 +114,7 @@ export default function TrainingListPage() {
           {isError && (
             <div className="py-20 text-center">
               <p className="text-red-500">
-                Gagal memuat data pelatihan. Coba lagi nanti.
+                {t("Gagal memuat data pelatihan. Coba lagi nanti.", "Failed to load training data. Please try again later.")}
               </p>
             </div>
           )}
@@ -120,7 +124,7 @@ export default function TrainingListPage() {
             <div className="py-16 text-center">
               <BookOpen className="mx-auto mb-3 h-12 w-12 text-slate-300" />
               <p className="text-muted-foreground">
-                Tidak ada pelatihan yang ditemukan.
+                {t("Tidak ada pelatihan yang ditemukan.", "No training found.")}
               </p>
             </div>
           )}
@@ -182,7 +186,7 @@ function WorkshopCard({ workshop }: { workshop: WorkshopSummary }) {
             ))}
             {workshop.benefits.length > 3 && (
               <li className="pl-5 text-xs text-slate-400">
-                +{workshop.benefits.length - 3} lainnya
+                +{workshop.benefits.length - 3} {t("lainnya", "more")}
               </li>
             )}
           </ul>
@@ -191,13 +195,13 @@ function WorkshopCard({ workshop }: { workshop: WorkshopSummary }) {
         <div className="flex items-center justify-between border-t pt-3">
           <div className="flex items-center gap-1.5 font-bold text-teal-600">
             <Coins size={16} />
-            <span>{workshop.credit_price} Kredit</span>
+            <span>{workshop.credit_price} {t("Kredit", "Credits")}</span>
           </div>
         </div>
 
         <Link href={`/workshop/${workshop.id}`}>
           <Button className="w-full gap-2" variant="outline">
-            Lihat Detail <ArrowRight size={16} />
+            {t("Lihat Detail", "View Details")} <ArrowRight size={16} />
           </Button>
         </Link>
       </CardContent>

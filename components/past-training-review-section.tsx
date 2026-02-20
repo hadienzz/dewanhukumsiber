@@ -30,11 +30,13 @@ import {
   getTypeLabel,
   getTypeBadgeVariant,
 } from "@/lib/training-data";
+import { useLanguage } from "@/lib/language-context";
 
 export default function PastTrainingReviewSection() {
   const [selectedType, setSelectedType] = useState<
     "all" | "pelatihan" | "workshop"
   >("all");
+  const { t } = useLanguage();
 
   const filteredTrainings =
     selectedType === "all"
@@ -51,13 +53,13 @@ export default function PastTrainingReviewSection() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
             <Star size={16} />
-            <span className="text-sm font-medium">Kelas Sebelumnya</span>
+            <span className="text-sm font-medium">{t("Kelas Sebelumnya", "Previous Classes")}</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            Pelatihan & Workshop yang Telah Selesai
+            {t("Pelatihan & Workshop yang Telah Selesai", "Completed Training & Workshops")}
           </h2>
           <p className="text-xl text-muted-foreground text-balance max-w-2xl mx-auto">
-            Lihat rekam jejak program kami beserta testimoni dari para alumni.
+            {t("Lihat rekam jejak program kami beserta testimoni dari para alumni.", "View our program track record along with testimonials from alumni.")}
           </p>
         </div>
 
@@ -70,8 +72,8 @@ export default function PastTrainingReviewSection() {
         >
           <div className="flex justify-center mb-8">
             <TabsList className="grid w-full max-w-md grid-cols-3">
-              <TabsTrigger value="all">Semua</TabsTrigger>
-              <TabsTrigger value="pelatihan">Pelatihan</TabsTrigger>
+              <TabsTrigger value="all">{t("Semua", "All")}</TabsTrigger>
+              <TabsTrigger value="pelatihan">{t("Pelatihan", "Training")}</TabsTrigger>
               <TabsTrigger value="workshop">Workshop</TabsTrigger>
             </TabsList>
           </div>
@@ -87,7 +89,7 @@ export default function PastTrainingReviewSection() {
         {/* Featured Reviews Section */}
         <div className="mt-20">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
-            Apa Kata Alumni Kami?
+            {t("Apa Kata Alumni Kami?", "What Our Alumni Say?")}
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trainingReviews.slice(0, 6).map((review) => (
@@ -236,7 +238,7 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                     </div>
                     <div className="flex items-center gap-1">
                       <Users size={14} />
-                      <span>{training.enrolled_participants} peserta</span>
+                      <span>{training.enrolled_participants} {t("peserta", "participants")}</span>
                     </div>
                   </div>
 
@@ -287,7 +289,7 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                       size="sm"
                       className="w-full gap-2"
                     >
-                      Lihat Detail & Review <ArrowRight size={14} />
+                      {t("Lihat Detail & Review", "View Details & Reviews")} <ArrowRight size={14} />
                     </Button>
                   </Link>
                 </CardContent>

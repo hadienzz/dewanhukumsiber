@@ -24,9 +24,10 @@ import {
 import { formatDate, getTypeLabel } from "@/lib/training-data";
 import { useGetWorkshops } from "@/hooks/workshop/use-get-workshops";
 import { formatPrice } from "@/utils/format-price";
-
+import { useLanguage } from "@/lib/language-context";
 export default function LatestTrainingSection() {
   const { workshops, isLoading, isError } = useGetWorkshops();
+  const { t } = useLanguage();
 
   return (
     <section id="latest-training" className="bg-background py-20">
@@ -34,32 +35,42 @@ export default function LatestTrainingSection() {
         <div className="mb-16 text-center">
           <div className="bg-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2">
             <Sparkles size={16} />
-            <span className="text-sm font-medium">Pelatihan Terbaru</span>
+            <span className="text-sm font-medium">
+              {t("Pelatihan Terbaru", "Latest Training")}
+            </span>
           </div>
           <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
-            Pelatihan Terkini
+            {t("Pelatihan Terkini", "Recent Training")}
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-xl text-balance">
-            Tingkatkan kompetensi Anda dengan program pelatihan terbaru dari
-            Dewan Hukum Siber Indonesia.
+            {t(
+              "Tingkatkan kompetensi Anda dengan program pelatihan terbaru dari Dewan Hukum Siber Indonesia.",
+              "Enhance your competencies with the latest training programs from the Indonesian Cyber Law Council.",
+            )}
           </p>
         </div>
 
         {isLoading && (
           <p className="text-muted-foreground text-center">
-            Memuat data pelatihan...
+            {t("Memuat data pelatihan...", "Loading training data...")}
           </p>
         )}
 
         {isError && !isLoading && (
           <p className="text-destructive text-center">
-            Gagal memuat data pelatihan. Silakan coba lagi nanti.
+            {t(
+              "Gagal memuat data pelatihan. Silakan coba lagi nanti.",
+              "Failed to load training data. Please try again later.",
+            )}
           </p>
         )}
 
         {!isLoading && !isError && workshops.length === 0 && (
           <p className="text-muted-foreground text-center">
-            Belum ada pelatihan yang tersedia saat ini.
+            {t(
+              "Belum ada pelatihan yang tersedia saat ini.",
+              "No training available at this time.",
+            )}
           </p>
         )}
 
@@ -112,7 +123,9 @@ export default function LatestTrainingSection() {
                     <div className="text-sm font-bold">
                       Dewan Hukum Siber Indonesia
                     </div>
-                    <div className="text-gray-500 text-xs">Dewan Hukum Siber Indonesia</div>
+                    <div className="text-xs text-gray-500">
+                      Dewan Hukum Siber Indonesia
+                    </div>
                   </div>
                 </div>
 
@@ -157,7 +170,7 @@ export default function LatestTrainingSection() {
 
                 <Link href={`/workshop/${workshop.id}`}>
                   <Button className="mt-2 w-full gap-2" variant="outline">
-                    Lihat Detail <ArrowRight size={16} />
+                    {t("Lihat Detail", "View Details")} <ArrowRight size={16} />
                   </Button>
                 </Link>
               </CardContent>

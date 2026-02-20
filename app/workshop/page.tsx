@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getWorkshopsRequest } from "@/services/workshop/get-workshops";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { useLanguage } from "@/lib/language-context";
 
 export default function WorkshopListPage() {
   const { data, isLoading } = useQuery({
@@ -19,6 +20,7 @@ export default function WorkshopListPage() {
   });
 
   const workshops = data?.data ?? [];
+  const { t } = useLanguage();
 
   return (
     <>
@@ -33,7 +35,7 @@ export default function WorkshopListPage() {
               className="mb-4 inline-flex items-center text-sm text-slate-300 transition-colors hover:text-white"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Kembali ke Beranda
+              {t("Kembali ke Beranda", "Back to Home")}
             </Link>
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500 shadow-lg">
@@ -42,7 +44,7 @@ export default function WorkshopListPage() {
               <div>
                 <h1 className="text-2xl font-bold md:text-3xl">Workshop</h1>
                 <p className="text-slate-300">
-                  Pelajari keterampilan hukum praktis melalui workshop kami
+                  {t("Pelajari keterampilan hukum praktis melalui workshop kami", "Learn practical legal skills through our workshops")}
                 </p>
               </div>
             </div>
@@ -60,7 +62,7 @@ export default function WorkshopListPage() {
               <CardContent className="py-12 text-center">
                 <BookOpen className="mx-auto mb-3 h-12 w-12 text-slate-300" />
                 <p className="text-slate-500">
-                  Belum ada workshop yang tersedia
+                  {t("Belum ada workshop yang tersedia", "No workshops available yet")}
                 </p>
               </CardContent>
             </Card>
@@ -98,14 +100,14 @@ export default function WorkshopListPage() {
                         <div className="flex items-center gap-1 text-amber-600">
                           <Coins className="h-4 w-4" />
                           <span className="text-lg font-bold">
-                            {workshop.credit_price} Kredit
+                            {workshop.credit_price} {t("Kredit", "Credits")}
                           </span>
                         </div>
                         <Button
                           size="sm"
                           className="bg-teal-500 hover:bg-teal-600"
                         >
-                          Lihat Detail
+                          {t("Lihat Detail", "View Details")}
                         </Button>
                       </div>
                     </CardContent>

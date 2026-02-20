@@ -9,11 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { useLanguage } from "@/lib/language-context";
 
 export default function AdvokatListPage() {
   const { data: advokats, isLoading, isError } = useAdvokat();
   const [search, setSearch] = useState("");
   const [selectedRole, setSelectedRole] = useState<string>("all");
+  const { t } = useLanguage();
 
   // Daftar role unik
   const roleList = useMemo(() => {
@@ -45,12 +47,13 @@ export default function AdvokatListPage() {
             <Scale className="text-primary-foreground h-8 w-8" />
           </div>
           <h1 className="text-primary-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
-            Advokat DHSI
+            {t("Advokat DHSI", "DHSI Lawyers")}
           </h1>
           <p className="text-primary-foreground/80 mx-auto max-w-2xl text-lg text-balance md:text-xl">
-            Daftar advokat dan pengacara profesional yang bernaung di bawah
-            Dewan Hukum Siber Indonesia, siap memberikan layanan dan
-            pendampingan hukum di bidang siber.
+            {t(
+              "Daftar advokat dan pengacara profesional yang bernaung di bawah Dewan Hukum Siber Indonesia, siap memberikan layanan dan pendampingan hukum di bidang siber.",
+              "List of professional lawyers under the Indonesian Cyber Law Council, ready to provide legal services and assistance in the cyber field."
+            )}
           </p>
 
           {/* Stats */}
@@ -61,7 +64,7 @@ export default function AdvokatListPage() {
                 {advokats?.length ?? "—"}
               </span>
               <span className="text-primary-foreground/70">
-                Advokat Terdaftar
+                {t("Advokat Terdaftar", "Registered Lawyers")}
               </span>
             </div>
             <div className="text-primary-foreground/90 flex items-center gap-2">
@@ -69,7 +72,7 @@ export default function AdvokatListPage() {
               <span className="text-lg font-semibold">
                 {roleList.length || "—"}
               </span>
-              <span className="text-primary-foreground/70">Spesialisasi</span>
+              <span className="text-primary-foreground/70">{t("Spesialisasi", "Specializations")}</span>
             </div>
           </div>
         </div>
@@ -83,7 +86,7 @@ export default function AdvokatListPage() {
               <div className="relative flex-1">
                 <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
-                  placeholder="Cari berdasarkan nama..."
+                  placeholder={t("Cari berdasarkan nama...", "Search by name...")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10"
@@ -94,7 +97,7 @@ export default function AdvokatListPage() {
                 onChange={(e) => setSelectedRole(e.target.value)}
                 className="border-input bg-background ring-offset-background focus:ring-ring rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
               >
-                <option value="all">Semua Spesialisasi</option>
+                <option value="all">{t("Semua Spesialisasi", "All Specializations")}</option>
                 {roleList.map((r) => (
                   <option key={r} value={r}>
                     {r}
@@ -123,20 +126,20 @@ export default function AdvokatListPage() {
         ) : isError ? (
           <div className="py-16 text-center">
             <p className="text-destructive text-lg">
-              Gagal memuat data advokat. Silakan coba lagi.
+              {t("Gagal memuat data advokat. Silakan coba lagi.", "Failed to load lawyer data. Please try again.")}
             </p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-16 text-center">
             <Users className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
             <p className="text-muted-foreground text-lg">
-              Tidak ada advokat yang ditemukan.
+              {t("Tidak ada advokat yang ditemukan.", "No lawyers found.")}
             </p>
           </div>
         ) : (
           <>
             <p className="text-muted-foreground mb-6 text-sm">
-              Menampilkan {filtered.length} dari {advokats?.length ?? 0} advokat
+              {t("Menampilkan", "Showing")} {filtered.length} {t("dari", "of")} {advokats?.length ?? 0} {t("advokat", "lawyers")}
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filtered.map((advokat) => {

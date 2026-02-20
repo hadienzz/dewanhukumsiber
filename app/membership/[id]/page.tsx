@@ -8,23 +8,25 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useMembershipPlan, useSubscribeMembership } from "@/hooks/membership/use-membership";
 import Link from "next/link";
-
-const tierLabels: Record<string, string> = {
-  basic: "Biasa",
-  pro: "Khusus",
-  elite: "Luar Biasa",
-};
-
-const tierDescriptions: Record<string, string> = {
-  basic: "Cocok untuk pemula yang ingin memulai pembelajaran",
-  pro: "Untuk profesional yang ingin meningkatkan kemampuan",
-  elite: "Akses penuh ke semua fitur premium",
-};
+import { useLanguage } from "@/lib/language-context";
 
 export default function MembershipDetailPage() {
   const params = useParams();
   const router = useRouter();
   const planId = params.id as string;
+  const { t } = useLanguage();
+
+  const tierLabels: Record<string, string> = {
+    basic: t("Biasa", "Basic"),
+    pro: t("Khusus", "Pro"),
+    elite: t("Luar Biasa", "Elite"),
+  };
+
+  const tierDescriptions: Record<string, string> = {
+    basic: t("Cocok untuk pemula yang ingin memulai pembelajaran", "Suitable for beginners who want to start learning"),
+    pro: t("Untuk profesional yang ingin meningkatkan kemampuan", "For professionals who want to improve their skills"),
+    elite: t("Akses penuh ke semua fitur premium", "Full access to all premium features"),
+  };
   
   const { data: plan, isLoading } = useMembershipPlan(planId);
   const subscribeMutation = useSubscribeMembership();
@@ -58,10 +60,10 @@ export default function MembershipDetailPage() {
       <div className="min-h-screen bg-slate-50 py-12">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">
-            Paket tidak ditemukan
+            {t("Paket tidak ditemukan", "Package not found")}
           </h1>
           <Button asChild>
-            <Link href="/#membership">Kembali ke Daftar Paket</Link>
+            <Link href="/#membership">{t("Kembali ke Daftar Paket", "Back to Package List")}</Link>
           </Button>
         </div>
       </div>
@@ -77,7 +79,7 @@ export default function MembershipDetailPage() {
           className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-8"
         >
           <ArrowLeft className="h-4 w-4" />
-          Kembali ke Daftar Paket
+          {t("Kembali ke Daftar Paket", "Back to Package List")}
         </Link>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -105,7 +107,7 @@ export default function MembershipDetailPage() {
               <CardContent className="space-y-6">
                 <div>
                   <h3 className="font-semibold text-slate-900 mb-4">
-                    Fitur yang Termasuk:
+                    {t("Fitur yang Termasuk:", "Included Features:")}
                   </h3>
                   <ul className="space-y-3">
                     {plan.features.map((feature, idx) => (
@@ -125,18 +127,18 @@ export default function MembershipDetailPage() {
                   <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Shield className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium text-slate-900">Garansi 7 Hari</h4>
+                      <h4 className="font-medium text-slate-900">{t("Garansi 7 Hari", "7-Day Guarantee")}</h4>
                       <p className="text-sm text-slate-600">
-                        Uang kembali jika tidak puas
+                        {t("Uang kembali jika tidak puas", "Money back if not satisfied")}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
                     <Clock className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="font-medium text-slate-900">Akses Fleksibel</h4>
+                      <h4 className="font-medium text-slate-900">{t("Akses Fleksibel", "Flexible Access")}</h4>
                       <p className="text-sm text-slate-600">
-                        Bisa upgrade kapan saja
+                        {t("Bisa upgrade kapan saja", "Upgrade anytime")}
                       </p>
                     </div>
                   </div>
@@ -152,13 +154,13 @@ export default function MembershipDetailPage() {
                 <CardTitle className="text-4xl font-bold">
                   Rp {plan.price.toLocaleString("id-ID")}
                 </CardTitle>
-                <CardDescription>per bulan</CardDescription>
+                <CardDescription>{t("per bulan", "per month")}</CardDescription>
               </CardHeader>
 
               <CardContent className="space-y-4">
                 <div className="text-center p-4 bg-slate-50 rounded-lg">
                   <p className="text-sm text-slate-600">
-                    Berlaku selama <span className="font-semibold">30 hari</span> setelah pembayaran
+                    {t("Berlaku selama", "Valid for")} <span className="font-semibold">{t("30 hari", "30 days")}</span> {t("setelah pembayaran", "after payment")}
                   </p>
                 </div>
 
@@ -168,13 +170,13 @@ export default function MembershipDetailPage() {
                   onClick={handleSubscribe}
                   disabled={subscribeMutation.isPending}
                 >
-                  {subscribeMutation.isPending ? "Memproses..." : "Berlangganan Sekarang"}
+                  {subscribeMutation.isPending ? t("Memproses...", "Processing...") : t("Berlangganan Sekarang", "Subscribe Now")}
                 </Button>
 
                 <p className="text-xs text-center text-slate-500">
-                  Dengan berlangganan, Anda menyetujui{" "}
+                  {t("Dengan berlangganan, Anda menyetujui", "By subscribing, you agree to the")}{" "}
                   <Link href="/terms" className="underline">
-                    Syarat & Ketentuan
+                    {t("Syarat & Ketentuan", "Terms & Conditions")}
                   </Link>
                 </p>
               </CardContent>
@@ -182,11 +184,11 @@ export default function MembershipDetailPage() {
               <CardFooter className="flex flex-col gap-2 text-sm text-slate-600">
                 <div className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-green-500" />
-                  <span>Pembayaran aman & terenkripsi</span>
+                  <span>{t("Pembayaran aman & terenkripsi", "Secure & encrypted payment")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-green-500" />
-                  <span>Support 24/7</span>
+                  <span>{t("Support 24/7", "24/7 Support")}</span>
                 </div>
               </CardFooter>
             </Card>

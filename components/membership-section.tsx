@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useMembershipPlans } from "@/hooks/membership/use-membership";
 import Link from "next/link";
+import { useLanguage } from "@/lib/language-context";
 
 const tierColors: Record<string, string> = {
   basic: "border-slate-200",
@@ -20,14 +21,15 @@ const tierBadgeColors: Record<string, string> = {
   elite: "bg-yellow-100 text-yellow-700",
 };
 
-const tierLabels: Record<string, string> = {
-  basic: "Biasa",
-  pro: "Khusus",
-  elite: "Luar Biasa",
-};
-
 export function MembershipSection() {
   const { data: plans, isLoading } = useMembershipPlans();
+  const { t } = useLanguage();
+
+  const tierLabels: Record<string, string> = {
+    basic: t("Biasa", "Basic"),
+    pro: t("Khusus", "Pro"),
+    elite: t("Luar Biasa", "Elite"),
+  };
 
   if (isLoading) {
     return (
@@ -35,10 +37,10 @@ export function MembershipSection() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              Pilih Paket Membership
+              {t("Pilih Paket Membership", "Choose Membership Plan")}
             </h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
-              Dapatkan akses ke berbagai fitur pembelajaran sesuai kebutuhan Anda
+              {t("Dapatkan akses ke berbagai fitur pembelajaran sesuai kebutuhan Anda", "Get access to various learning features tailored to your needs")}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -67,11 +69,13 @@ export function MembershipSection() {
         <div className="text-center mb-12">
           <Badge className="mb-4">Membership</Badge>
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Pilih Paket Membership
+            {t("Pilih Paket Membership", "Choose Membership Plan")}
           </h2>
           <p className="text-slate-600 max-w-2xl mx-auto">
-            Dapatkan akses ke berbagai fitur pembelajaran sesuai kebutuhan Anda.
-            Upgrade kapan saja untuk mendapatkan lebih banyak manfaat.
+            {t(
+              "Dapatkan akses ke berbagai fitur pembelajaran sesuai kebutuhan Anda. Upgrade kapan saja untuk mendapatkan lebih banyak manfaat.",
+              "Get access to various learning features tailored to your needs. Upgrade anytime to get more benefits."
+            )}
           </p>
         </div>
 
@@ -88,7 +92,7 @@ export function MembershipSection() {
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-blue-600 text-white flex items-center gap-1">
                     <Star className="h-3 w-3" />
-                    Paling Populer
+                    {t("Paling Populer", "Most Popular")}
                   </Badge>
                 </div>
               )}
@@ -105,7 +109,7 @@ export function MembershipSection() {
                   <span className="text-4xl font-bold text-slate-900">
                     Rp {plan.price.toLocaleString("id-ID")}
                   </span>
-                  <span className="text-slate-500">/bulan</span>
+                  <span className="text-slate-500">/{t("bulan", "month")}</span>
                 </div>
                 <CardDescription className="mt-2">
                   {plan.description}
@@ -130,7 +134,7 @@ export function MembershipSection() {
                   variant={plan.is_popular ? "default" : "outline"}
                 >
                   <Link href={`/membership/${plan.id}`}>
-                    Pilih {tierLabels[plan.tier]}
+                    {t("Pilih", "Choose")} {tierLabels[plan.tier]}
                   </Link>
                 </Button>
               </CardFooter>
@@ -140,7 +144,10 @@ export function MembershipSection() {
 
         <div className="mt-12 text-center">
           <p className="text-sm text-slate-500">
-            Semua paket termasuk akses ke komunitas eksklusif dan support prioritas.
+            {t(
+              "Semua paket termasuk akses ke komunitas eksklusif dan support prioritas.",
+              "All plans include access to an exclusive community and priority support."
+            )}
           </p>
         </div>
       </div>

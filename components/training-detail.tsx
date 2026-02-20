@@ -47,12 +47,14 @@ import {
   getTypeLabel,
   getTypeBadgeVariant,
 } from "@/lib/training-data";
+import { useLanguage } from "@/lib/language-context";
 
 interface TrainingDetailProps {
   training: TrainingSession;
 }
 
 export default function TrainingDetail({ training }: TrainingDetailProps) {
+  const { t } = useLanguage();
   const reviews = getReviewsByTrainingId(training.id);
   const enrolledParticipants =
     training.enrolledParticipants ?? training.enrolled_participants ?? 0;
@@ -79,7 +81,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-6"
           >
             <ArrowLeft size={16} />
-            <span>Kembali ke Daftar</span>
+            <span>{t("Kembali ke Daftar", "Back to List")}</span>
           </Link>
 
           <div className="grid lg:grid-cols-[1fr_400px] gap-8 lg:gap-12">
@@ -123,7 +125,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                   />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Instruktur</p>
+                  <p className="text-sm text-muted-foreground">{t("Instruktur", "Instructor")}</p>
                   <p className="font-semibold text-lg">
                     {training.instructor.name}
                   </p>
@@ -152,13 +154,13 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                     </div>
                     <span className="text-xl font-bold">{training.rating}</span>
                     <span className="text-muted-foreground">
-                      ({training.totalReviews} review)
+                      ({training.totalReviews} {t("review", "reviews")})
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Users size={18} />
                     <span>
-                      {training.enrolled_participants} peserta terdaftar
+                      {training.enrolled_participants} {t("peserta terdaftar", "registered participants")}
                     </span>
                   </div>
                 </div>
@@ -181,13 +183,13 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                     <p className="text-3xl font-bold text-primary">
                       {training.price}
                     </p>
-                    <p className="text-sm text-muted-foreground">per peserta</p>
+                    <p className="text-sm text-muted-foreground">{t("per peserta", "per participant")}</p>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">
-                        Kuota Peserta
+                        {t("Kuota Peserta", "Participant Quota")}
                       </span>
                       <span className="font-medium">
                         {training.enrolled_participants}/
@@ -197,7 +199,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                     <Progress value={participantProgress} className="h-2" />
                     {participantProgress >= 80 && (
                       <p className="text-xs text-destructive font-medium">
-                        ⚠️ Kuota hampir penuh!
+                        {t("⚠️ Kuota hampir penuh!", "⚠️ Quota almost full!")}
                       </p>
                     )}
                   </div>
@@ -208,13 +210,13 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                     <div className="flex items-center gap-3">
                       <Calendar size={18} className="text-primary" />
                       <div>
-                        <p className="text-muted-foreground">Tanggal</p>
+                        <p className="text-muted-foreground">{t("Tanggal", "Date")}</p>
                         <p className="font-medium">
                           {formatDate(training.date)}
                         </p>
                         {training.end_date && (
                           <p className="font-medium">
-                            s/d {formatDate(training.end_date)}
+                            {t("s/d", "to")} {formatDate(training.end_date)}
                           </p>
                         )}
                       </div>
@@ -222,14 +224,14 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                     <div className="flex items-center gap-3">
                       <Clock size={18} className="text-primary" />
                       <div>
-                        <p className="text-muted-foreground">Waktu</p>
+                        <p className="text-muted-foreground">{t("Waktu", "Time")}</p>
                         <p className="font-medium">{training.time}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
                       <MapPin size={18} className="text-primary" />
                       <div>
-                        <p className="text-muted-foreground">Lokasi</p>
+                        <p className="text-muted-foreground">{t("Lokasi", "Location")}</p>
                         <p className="font-medium">{training.location}</p>
                       </div>
                     </div>
@@ -239,7 +241,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
 
                   {training.status !== "completed" ? (
                     <Button className="w-full" size="lg">
-                      Daftar Sekarang
+                      {t("Daftar Sekarang", "Register Now")}
                     </Button>
                   ) : (
                     <Button
@@ -248,18 +250,18 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                       variant="secondary"
                       disabled
                     >
-                      Program Telah Selesai
+                      {t("Program Telah Selesai", "Program Completed")}
                     </Button>
                   )}
 
                   <div className="flex gap-2">
                     <Button variant="outline" className="flex-1 gap-2">
                       <Heart size={16} />
-                      Simpan
+                      {t("Simpan", "Save")}
                     </Button>
                     <Button variant="outline" className="flex-1 gap-2">
                       <Share2 size={16} />
-                      Bagikan
+                      {t("Bagikan", "Share")}
                     </Button>
                   </div>
                 </CardContent>
@@ -279,10 +281,10 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BookOpen size={20} className="text-primary" />
-                    Materi Pembelajaran
+                    {t("Materi Pembelajaran", "Learning Materials")}
                   </CardTitle>
                   <CardDescription>
-                    {training.syllabus.length} topik • {training.duration}
+                    {training.syllabus.length} {t("topik", "topics")} • {training.duration}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -299,8 +301,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                         </AccordionTrigger>
                         <AccordionContent className="pl-11">
                           <p className="text-muted-foreground">
-                            Materi mendalam tentang {topic.toLowerCase()} dengan
-                            contoh kasus praktis dan diskusi interaktif.
+                            {t("Materi mendalam tentang ", "In-depth material about ")}{topic.toLowerCase()}{t(" dengan contoh kasus praktis dan diskusi interaktif.", " with practical case examples and interactive discussions.")}
                           </p>
                         </AccordionContent>
                       </AccordionItem>
@@ -314,7 +315,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Target size={20} className="text-primary" />
-                    Persyaratan Peserta
+                    {t("Persyaratan Peserta", "Participant Requirements")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -337,7 +338,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Award size={20} className="text-primary" />
-                    Yang Akan Anda Dapatkan
+                    {t("Yang Akan Anda Dapatkan", "What You Will Get")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -364,10 +365,10 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Star size={20} className="text-primary" />
-                      Review dari Alumni
+                      {t("Review dari Alumni", "Reviews from Alumni")}
                     </CardTitle>
                     <CardDescription>
-                      {training.totalReviews} review dari peserta sebelumnya
+                      {training.totalReviews} {t("review dari peserta sebelumnya", "reviews from previous participants")}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -391,7 +392,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                           ))}
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          {training.totalReviews} review
+                          {training.totalReviews} {t("review", "reviews")}
                         </p>
                       </div>
                       <div className="space-y-2">
@@ -478,7 +479,7 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
                               className="gap-2 text-muted-foreground"
                             >
                               <ThumbsUp size={14} />
-                              Membantu ({review.helpful})
+                              {t("Membantu", "Helpful")} ({review.helpful})
                             </Button>
                           </div>
                           <Separator />
@@ -494,23 +495,22 @@ export default function TrainingDetail({ training }: TrainingDetailProps) {
             <div className="hidden lg:block">
               <Card className="sticky top-24">
                 <CardHeader>
-                  <CardTitle className="text-lg">Butuh Bantuan?</CardTitle>
+                  <CardTitle className="text-lg">{t("Butuh Bantuan?", "Need Help?")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Hubungi tim kami untuk informasi lebih lanjut tentang
-                    program ini.
+                    {t("Hubungi tim kami untuk informasi lebih lanjut tentang program ini.", "Contact our team for more information about this program.")}
                   </p>
                   <Button variant="outline" className="w-full gap-2">
                     <Download size={16} />
-                    Download Brosur
+                    {t("Download Brosur", "Download Brochure")}
                   </Button>
                   <Button variant="outline" className="w-full">
-                    Hubungi Kami
+                    {t("Hubungi Kami", "Contact Us")}
                   </Button>
                   <Separator />
                   <div className="text-sm text-muted-foreground">
-                    <p className="font-medium text-foreground mb-2">Kontak:</p>
+                    <p className="font-medium text-foreground mb-2">{t("Kontak:", "Contact:")}</p>
                     <p>📧 training@dhsi.or.id</p>
                     <p>📞 +62 21 1234 5678</p>
                     <p>💬 WhatsApp: +62 812 3456 7890</p>
