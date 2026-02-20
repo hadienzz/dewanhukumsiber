@@ -48,18 +48,26 @@ export default function PastTrainingReviewSection() {
   };
 
   return (
-    <section id="past-training" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-4">
+    <section id="past-training" className="bg-background py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-16 text-center">
+          <div className="bg-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2">
             <Star size={16} />
-            <span className="text-sm font-medium">{t("Kelas Sebelumnya", "Previous Classes")}</span>
+            <span className="text-sm font-medium">
+              {t("Kelas Sebelumnya", "Previous Classes")}
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            {t("Pelatihan & Workshop yang Telah Selesai", "Completed Training & Workshops")}
+          <h2 className="text-foreground mb-4 text-4xl font-bold text-balance md:text-5xl">
+            {t(
+              "Pelatihan & Workshop yang Telah Selesai",
+              "Completed Training & Workshops",
+            )}
           </h2>
-          <p className="text-xl text-muted-foreground text-balance max-w-2xl mx-auto">
-            {t("Lihat rekam jejak program kami beserta testimoni dari para alumni.", "View our program track record along with testimonials from alumni.")}
+          <p className="text-muted-foreground mx-auto max-w-2xl text-xl text-balance">
+            {t(
+              "Lihat rekam jejak program kami beserta testimoni dari para alumni.",
+              "View our program track record along with testimonials from alumni.",
+            )}
           </p>
         </div>
 
@@ -70,10 +78,12 @@ export default function PastTrainingReviewSection() {
           }
           className="mb-8"
         >
-          <div className="flex justify-center mb-8">
+          <div className="mb-8 flex justify-center">
             <TabsList className="grid w-full max-w-md grid-cols-3">
               <TabsTrigger value="all">{t("Semua", "All")}</TabsTrigger>
-              <TabsTrigger value="pelatihan">{t("Pelatihan", "Training")}</TabsTrigger>
+              <TabsTrigger value="pelatihan">
+                {t("Pelatihan", "Training")}
+              </TabsTrigger>
               <TabsTrigger value="workshop">Workshop</TabsTrigger>
             </TabsList>
           </div>
@@ -88,17 +98,17 @@ export default function PastTrainingReviewSection() {
 
         {/* Featured Reviews Section */}
         <div className="mt-20">
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
+          <h3 className="text-foreground mb-8 text-center text-2xl font-bold md:text-3xl">
             {t("Apa Kata Alumni Kami?", "What Our Alumni Say?")}
           </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {trainingReviews.slice(0, 6).map((review) => (
               <Card
                 key={review.id}
-                className="bg-card hover:shadow-lg transition-shadow"
+                className="bg-card transition-shadow hover:shadow-lg"
               >
                 <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="mb-3 flex items-start justify-between">
                     <Badge
                       variant={getTypeBadgeVariant(review.training_type)}
                       className="text-xs"
@@ -123,7 +133,7 @@ export default function PastTrainingReviewSection() {
                     href={`/training/${review.training_id}`}
                     className="hover:text-primary transition-colors"
                   >
-                    <p className="text-sm font-medium text-primary line-clamp-1">
+                    <p className="text-primary line-clamp-1 text-sm font-medium">
                       {review.training_title}
                     </p>
                   </Link>
@@ -132,15 +142,15 @@ export default function PastTrainingReviewSection() {
                   <div className="relative">
                     <Quote
                       size={24}
-                      className="absolute -top-1 -left-1 text-primary/20"
+                      className="text-primary/20 absolute -top-1 -left-1"
                     />
-                    <p className="text-foreground leading-relaxed pl-5 line-clamp-4">
+                    <p className="text-foreground line-clamp-4 pl-5 leading-relaxed">
                       {review.content}
                     </p>
                   </div>
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                  <div className="mt-4 flex items-center justify-between border-t pt-4">
                     <div className="flex items-center gap-3">
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden bg-muted">
+                      <div className="bg-muted relative h-10 w-10 overflow-hidden rounded-full">
                         <Image
                           src={review.reviewer_avatar || "/placeholder.svg"}
                           alt={review.reviewer_name}
@@ -152,12 +162,12 @@ export default function PastTrainingReviewSection() {
                         <p className="text-sm font-semibold">
                           {review.reviewer_name}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {review.reviewer_role}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center gap-1">
                       <ThumbsUp size={14} />
                       <span className="text-xs">{review.helpful}</span>
                     </div>
@@ -178,8 +188,10 @@ interface TrainingGridProps {
 }
 
 function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
+  const { t } = useLanguage();
+
   return (
-    <div className="grid md:grid-cols-2 gap-6">
+    <div className="grid gap-6 md:grid-cols-2">
       {trainings.map((training) => {
         const reviews = getReviewsForTraining(training.id);
         const topReview = reviews[0];
@@ -187,15 +199,15 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
         return (
           <Card
             key={training.id}
-            className="overflow-hidden hover:shadow-xl transition-all duration-300 group"
+            className="group overflow-hidden transition-all duration-300 hover:shadow-xl"
           >
             <div className="grid sm:grid-cols-[180px_1fr] lg:grid-cols-[200px_1fr]">
-              <div className="relative h-40 sm:h-full min-h-[160px] overflow-hidden bg-muted">
+              <div className="bg-muted relative h-40 min-h-[160px] overflow-hidden sm:h-full">
                 <Image
                   src={training.thumbnail || "/placeholder.svg"}
                   alt={training.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute top-2 left-2">
                   <Badge
@@ -209,11 +221,11 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
 
               <div className="flex flex-col">
                 <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="mb-1 flex items-center gap-2">
                     <Badge variant="secondary" className="text-xs">
                       {training.category}
                     </Badge>
-                    <Badge variant="outline" className="text-xs gap-1">
+                    <Badge variant="outline" className="gap-1 text-xs">
                       {training.is_online ? (
                         <Video size={10} />
                       ) : (
@@ -222,28 +234,31 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                       {training.is_online ? "Online" : "Offline"}
                     </Badge>
                   </div>
-                  <CardTitle className="text-base lg:text-lg line-clamp-2 group-hover:text-primary transition-colors">
+                  <CardTitle className="group-hover:text-primary line-clamp-2 text-base transition-colors lg:text-lg">
                     {training.title}
                   </CardTitle>
-                  <CardDescription className="text-sm line-clamp-2">
+                  <CardDescription className="line-clamp-2 text-sm">
                     {training.short_description}
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex-1 flex flex-col justify-between pt-0">
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                <CardContent className="flex flex-1 flex-col justify-between pt-0">
+                  <div className="text-muted-foreground mb-3 flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       <span>{formatDate(training.date)}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Users size={14} />
-                      <span>{training.enrolled_participants} {t("peserta", "participants")}</span>
+                      <span>
+                        {training.enrolled_participants}{" "}
+                        {t("peserta", "participants")}
+                      </span>
                     </div>
                   </div>
 
                   {training.rating && (
-                    <div className="flex items-center gap-2 mb-3">
+                    <div className="mb-3 flex items-center gap-2">
                       <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
                           <Star
@@ -260,24 +275,24 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                       <span className="text-sm font-semibold">
                         {training.rating}
                       </span>
-                      <span className="text-sm text-muted-foreground">
-                        ({training.totalReviews} review)
+                      <span className="text-muted-foreground text-sm">
+                        ({training.totalReviews} {t("ulasan", "reviews")})
                       </span>
                     </div>
                   )}
 
                   {topReview && (
-                    <div className="bg-muted/50 rounded-lg p-3 mb-3">
+                    <div className="bg-muted/50 mb-3 rounded-lg p-3">
                       <div className="flex items-start gap-2">
                         <Quote
                           size={14}
                           className="text-primary/60 mt-0.5 shrink-0"
                         />
-                        <p className="text-xs text-muted-foreground line-clamp-2 italic">
+                        <p className="text-muted-foreground line-clamp-2 text-xs italic">
                           &ldquo;{topReview.content}&rdquo;
                         </p>
                       </div>
-                      <p className="text-xs font-medium mt-2 text-right">
+                      <p className="mt-2 text-right text-xs font-medium">
                         — {topReview.reviewer_name}
                       </p>
                     </div>
@@ -289,7 +304,8 @@ function TrainingGrid({ trainings, getReviewsForTraining }: TrainingGridProps) {
                       size="sm"
                       className="w-full gap-2"
                     >
-                      {t("Lihat Detail & Review", "View Details & Reviews")} <ArrowRight size={14} />
+                      {t("Lihat Detail & Review", "View Details & Reviews")}
+                      <ArrowRight size={14} />
                     </Button>
                   </Link>
                 </CardContent>

@@ -51,7 +51,7 @@ export default function TrainingListPage() {
             <p className="text-muted-foreground mb-8 text-xl">
               {t(
                 "Temukan program pelatihan dan workshop terbaik untuk meningkatkan kompetensi Anda di bidang hukum siber.",
-                "Find the best training and workshop programs to enhance your competence in cyber law."
+                "Find the best training and workshop programs to enhance your competence in cyber law.",
               )}
             </p>
 
@@ -62,7 +62,10 @@ export default function TrainingListPage() {
                 size={20}
               />
               <Input
-                placeholder={t("Cari pelatihan atau workshop...", "Search training or workshop...")}
+                placeholder={t(
+                  "Cari pelatihan atau workshop...",
+                  "Search training or workshop...",
+                )}
                 className="py-6 pr-4 pl-12 text-lg"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -106,7 +109,9 @@ export default function TrainingListPage() {
           {isLoading && (
             <div className="py-20 text-center">
               <Loader2 className="mx-auto h-8 w-8 animate-spin text-teal-500" />
-              <p className="text-muted-foreground mt-3">{t("Memuat pelatihan...", "Loading training...")}</p>
+              <p className="text-muted-foreground mt-3">
+                {t("Memuat pelatihan...", "Loading training...")}
+              </p>
             </div>
           )}
 
@@ -114,7 +119,10 @@ export default function TrainingListPage() {
           {isError && (
             <div className="py-20 text-center">
               <p className="text-red-500">
-                {t("Gagal memuat data pelatihan. Coba lagi nanti.", "Failed to load training data. Please try again later.")}
+                {t(
+                  "Gagal memuat data pelatihan. Coba lagi nanti.",
+                  "Failed to load training data. Please try again later.",
+                )}
               </p>
             </div>
           )}
@@ -144,6 +152,7 @@ export default function TrainingListPage() {
 }
 
 function WorkshopCard({ workshop }: { workshop: WorkshopSummary }) {
+  const { t } = useLanguage();
   return (
     <Card className="group flex cursor-pointer flex-col overflow-hidden transition-all duration-300 hover:shadow-xl">
       <div className="bg-muted relative h-48 w-full overflow-hidden">
@@ -195,7 +204,9 @@ function WorkshopCard({ workshop }: { workshop: WorkshopSummary }) {
         <div className="flex items-center justify-between border-t pt-3">
           <div className="flex items-center gap-1.5 font-bold text-teal-600">
             <Coins size={16} />
-            <span>{workshop.credit_price} {t("Kredit", "Credits")}</span>
+            <span>
+              {workshop.credit_price} {t("Kredit", "Credits")}
+            </span>
           </div>
         </div>
 
