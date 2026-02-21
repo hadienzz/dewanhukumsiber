@@ -22,7 +22,7 @@ import { useLanguage } from "@/lib/language-context";
 
 const WHATSAPP_NUMBER = "6281234567890";
 const WHATSAPP_MESSAGE = encodeURIComponent(
-  "Halo DHSI, saya tertarik untuk bergabung sebagai Mitra Paralegal. Mohon informasi lebih lanjut.",
+  "Halo DHSI, saya tertarik untuk menjalin kerjasama sebagai Mitra Kerjasama. Mohon informasi lebih lanjut.",
 );
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
 
@@ -34,24 +34,24 @@ export default function MitraPage() {
       icon: Shield,
       title: t("Sertifikasi Resmi", "Official Certification"),
       description: t(
-        "Dapatkan sertifikat paralegal yang diakui oleh Dewan Hukum Siber Indonesia.",
-        "Get a paralegal certificate recognized by the Indonesian Cyber Law Council."
+        "Dapatkan pengakuan kemitraan resmi untuk mendukung kolaborasi bersama DHSI.",
+        "Get official partnership recognition to support collaboration with DHSI.",
       ),
     },
     {
       icon: BookOpen,
       title: t("Pelatihan Berkala", "Regular Training"),
       description: t(
-        "Akses pelatihan dan workshop eksklusif untuk meningkatkan kompetensi hukum siber Anda.",
-        "Access exclusive training and workshops to enhance your cyber law competence."
+        "Akses program, pelatihan, dan workshop untuk mendukung kolaborasi dan peningkatan kapasitas.",
+        "Access programs, training, and workshops to support collaboration and capacity building.",
       ),
     },
     {
       icon: Users,
       title: t("Jaringan Profesional", "Professional Network"),
       description: t(
-        "Bergabung dengan komunitas paralegal dan praktisi hukum siber se-Indonesia.",
-        "Join the community of paralegals and cyber law practitioners across Indonesia."
+        "Bergabung dengan jaringan mitra dan praktisi hukum siber se-Indonesia.",
+        "Join the network of partners and cyber law practitioners across Indonesia.",
       ),
     },
     {
@@ -59,7 +59,7 @@ export default function MitraPage() {
       title: t("Kesempatan Karir", "Career Opportunities"),
       description: t(
         "Buka peluang karir di bidang hukum siber yang terus berkembang pesat.",
-        "Open career opportunities in the rapidly growing field of cyber law."
+        "Open career opportunities in the rapidly growing field of cyber law.",
       ),
     },
     {
@@ -67,7 +67,7 @@ export default function MitraPage() {
       title: t("Jangkauan Nasional", "National Reach"),
       description: t(
         "Berkontribusi memberikan bantuan hukum siber di seluruh wilayah Indonesia.",
-        "Contribute to providing cyber legal assistance across all regions of Indonesia."
+        "Contribute to providing cyber legal assistance across all regions of Indonesia.",
       ),
     },
     {
@@ -75,16 +75,25 @@ export default function MitraPage() {
       title: t("Dampak Sosial", "Social Impact"),
       description: t(
         "Bantu masyarakat yang membutuhkan pendampingan hukum di ranah digital.",
-        "Help communities in need of legal assistance in the digital space."
+        "Help communities in need of legal assistance in the digital space.",
       ),
     },
   ];
 
   const requirements = [
     t("Warga Negara Indonesia (WNI)", "Indonesian Citizen"),
-    t("Memiliki ketertarikan di bidang hukum, khususnya hukum siber", "Has an interest in law, especially cyber law"),
-    t("Bersedia mengikuti pelatihan dasar paralegal DHSI", "Willing to participate in DHSI basic paralegal training"),
-    t("Memiliki integritas dan komitmen tinggi", "Has high integrity and commitment"),
+    t(
+      "Memiliki ketertarikan di bidang hukum, khususnya hukum siber",
+      "Has an interest in law, especially cyber law",
+    ),
+    t(
+      "Bersedia mengikuti proses onboarding/briefing kemitraan DHSI",
+      "Willing to participate in DHSI partnership onboarding/briefing",
+    ),
+    t(
+      "Memiliki integritas dan komitmen tinggi",
+      "Has high integrity and commitment",
+    ),
     t("Mampu berkomunikasi dengan baik", "Good communication skills"),
   ];
 
@@ -93,8 +102,8 @@ export default function MitraPage() {
       number: "01",
       title: t("Hubungi Kami", "Contact Us"),
       description: t(
-        "Kirim pesan melalui WhatsApp untuk menyatakan minat bergabung sebagai mitra paralegal.",
-        "Send a message via WhatsApp to express your interest in joining as a paralegal partner."
+        "Kirim pesan melalui WhatsApp untuk menyatakan minat menjalin kerjasama sebagai mitra kerjasama.",
+        "Send a message via WhatsApp to express your interest in joining as a cooperation partner.",
       ),
       icon: Phone,
     },
@@ -103,7 +112,7 @@ export default function MitraPage() {
       title: t("Verifikasi Data", "Data Verification"),
       description: t(
         "Tim kami akan menghubungi Anda untuk verifikasi data dan wawancara awal.",
-        "Our team will contact you for data verification and initial interview."
+        "Our team will contact you for data verification and initial interview.",
       ),
       icon: CheckCircle,
     },
@@ -111,8 +120,8 @@ export default function MitraPage() {
       number: "03",
       title: t("Ikuti Pelatihan", "Join the Training"),
       description: t(
-        "Selesaikan program pelatihan dasar paralegal hukum siber dari DHSI.",
-        "Complete the basic cyber law paralegal training program from DHSI."
+        "Ikuti sesi onboarding/briefing dan penyesuaian ruang lingkup kerjasama bersama tim DHSI.",
+        "Join onboarding/briefing sessions and align the scope of cooperation with the DHSI team.",
       ),
       icon: GraduationCap,
     },
@@ -120,8 +129,8 @@ export default function MitraPage() {
       number: "04",
       title: t("Mulai Bertugas", "Start Working"),
       description: t(
-        "Setelah lulus pelatihan, Anda resmi menjadi mitra paralegal DHSI.",
-        "After passing the training, you officially become a DHSI paralegal partner."
+        "Setelah proses disepakati, Anda resmi menjadi mitra kerjasama DHSI.",
+        "After the process is agreed, you officially become a DHSI cooperation partner.",
       ),
       icon: Award,
     },
@@ -140,13 +149,13 @@ export default function MitraPage() {
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <Badge className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/15 mb-6 px-4 py-1.5 text-sm">
             <Scale className="mr-2 h-4 w-4" />
-            Program Mitra Paralegal
+            {t("Program Mitra Kerjasama", "Cooperation Partner Program")}
           </Badge>
 
           <h1 className="text-primary-foreground mb-6 text-4xl leading-tight font-bold text-balance md:text-5xl lg:text-6xl">
             {t("Bergabunglah Menjadi", "Join as a")}{" "}
             <span className="from-primary-foreground to-primary-foreground/70 bg-linear-to-r bg-clip-text">
-              {t("Mitra Paralegal", "Paralegal Partner")}
+              {t("Mitra", "Partner")}
             </span>{" "}
             DHSI
           </h1>
@@ -154,7 +163,7 @@ export default function MitraPage() {
           <p className="text-primary-foreground/80 mx-auto mb-10 max-w-3xl text-lg leading-relaxed text-balance md:text-xl">
             {t(
               "Jadilah bagian dari garda depan perlindungan hukum siber di Indonesia. Bersama DHSI, Anda dapat memberikan dampak nyata dalam mewujudkan keadilan di era digital.",
-              "Be part of the front line of cyber law protection in Indonesia. Together with DHSI, you can make a real impact in realizing justice in the digital era."
+              "Be part of the front line of cyber law protection in Indonesia. Together with DHSI, you can make a real impact in realizing justice in the digital era.",
             )}
           </p>
 
@@ -177,7 +186,7 @@ export default function MitraPage() {
             <div className="bg-primary-foreground/10 rounded-2xl px-6 py-4 backdrop-blur-sm">
               <p className="text-primary-foreground text-3xl font-bold">100+</p>
               <p className="text-primary-foreground/70 text-sm">
-                {t("Paralegal Aktif", "Active Paralegals")}
+                {t("Mitra Aktif", "Active Partners")}
               </p>
             </div>
             <div className="bg-primary-foreground/10 rounded-2xl px-6 py-4 backdrop-blur-sm">
@@ -209,8 +218,8 @@ export default function MitraPage() {
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg text-balance">
               {t(
-                "Nikmati berbagai keuntungan eksklusif sebagai mitra paralegal DHSI.",
-                "Enjoy various exclusive benefits as a DHSI paralegal partner."
+                "Nikmati berbagai keuntungan eksklusif sebagai mitra kerjasama DHSI.",
+                "Enjoy various exclusive benefits as a DHSI cooperation partner.",
               )}
             </p>
           </div>
@@ -251,12 +260,15 @@ export default function MitraPage() {
                 Persyaratan
               </Badge>
               <h2 className="text-foreground mb-4 text-3xl font-bold text-balance md:text-4xl">
-                {t("Syarat Menjadi Mitra Paralegal", "Requirements to Become a Paralegal Partner")}
+                {t(
+                  "Syarat Menjadi Mitra Kerjasama",
+                  "Requirements to Become a Cooperation Partner",
+                )}
               </h2>
               <p className="text-muted-foreground mb-8 text-lg">
                 {t(
-                  "Pastikan Anda memenuhi persyaratan berikut untuk bergabung sebagai mitra paralegal DHSI.",
-                  "Make sure you meet the following requirements to join as a DHSI paralegal partner."
+                  "Pastikan Anda memenuhi persyaratan berikut untuk bergabung sebagai mitra kerjasama DHSI.",
+                  "Make sure you meet the following requirements to join as a DHSI cooperation partner.",
                 )}
               </p>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
@@ -296,7 +308,10 @@ export default function MitraPage() {
               {t("Cara Bergabung", "How to Join")}
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg text-balance">
-              {t("4 langkah mudah untuk menjadi mitra paralegal DHSI.", "4 easy steps to become a DHSI paralegal partner.")}
+              {t(
+                "4 langkah mudah untuk menjadi mitra kerjasama DHSI.",
+                "4 easy steps to become a DHSI cooperation partner.",
+              )}
             </p>
           </div>
 
@@ -342,12 +357,15 @@ export default function MitraPage() {
           </div>
 
           <h2 className="text-primary-foreground mb-6 text-3xl font-bold text-balance md:text-4xl lg:text-5xl">
-            {t("Siap Bergabung Sebagai Mitra Paralegal?", "Ready to Join as a Paralegal Partner?")}
+            {t(
+              "Siap Bergabung Sebagai Mitra Kerjasama?",
+              "Ready to Join as a Cooperation Partner?",
+            )}
           </h2>
           <p className="text-primary-foreground/80 mx-auto mb-10 max-w-2xl text-lg text-balance md:text-xl">
             {t(
-              "Hubungi kami sekarang melalui WhatsApp untuk informasi lebih lanjut dan mulai perjalanan Anda sebagai paralegal hukum siber.",
-              "Contact us now via WhatsApp for more information and start your journey as a cyber law paralegal."
+              "Hubungi kami sekarang melalui WhatsApp untuk informasi lebih lanjut dan mulai perjalanan kerjasama Anda bersama DHSI.",
+              "Contact us now via WhatsApp for more information and start your collaboration journey with DHSI.",
             )}
           </p>
 

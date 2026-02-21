@@ -89,7 +89,6 @@ export function InheritanceCalculatorSection() {
                 t("Perhitungan otomatis berdasarkan jumlah ahli waris", "Automatic calculation based on number of heirs"),
                 t("Mendukung berbagai skenario keluarga", "Supports various family scenarios"),
                 t("Hasil dapat diunduh sebagai dokumen", "Results can be downloaded as a document"),
-                t("Gratis dan mudah digunakan", "Free and easy to use"),
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 text-teal-400 shrink-0" />

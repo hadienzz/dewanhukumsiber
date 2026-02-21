@@ -77,8 +77,9 @@ interface TrainingListItem {
   level: "Beginner" | "Intermediate" | "Advanced";
   maxParticipants: number;
   enrolledParticipants: number;
-  price: string;
   rating?: number;
+  moduleCount: number;
+  price: string;
 }
 
 const ITEMS_PER_PAGE = 6;
@@ -105,7 +106,7 @@ export function TrainingList({
       type: "pelatihan",
       status: "upcoming",
       thumbnail: workshop.thumbnail ?? "/placeholder.svg",
-      date: workshop.created_at,
+      date: workshop.start_date ?? workshop.created_at,
       time: "-",
       location: "Online",
       isOnline: true,
@@ -115,7 +116,9 @@ export function TrainingList({
       category: workshop.category ?? "Pelatihan DHSI",
       level: "Beginner",
       maxParticipants: 25,
-      enrolledParticipants: 0,
+      enrolledParticipants: workshop.participant_count ?? 0,
+      rating: workshop.avg_rating ?? 0,
+      moduleCount: workshop.module_count ?? 0,
       price: typeof workshop.price === "number" ? formatPrice(workshop.price) : "-",
     }));
   }, [initialTrainings, workshops]);
@@ -424,8 +427,7 @@ export function TrainingList({
                     <div className="flex items-center gap-1 text-sm">
                       <Users className="h-4 w-4 text-slate-400" />
                       <span>
-                        {training.enrolledParticipants}/
-                        {training.maxParticipants}
+                        {training.enrolledParticipants} peserta
                       </span>
                     </div>
                   </TableCell>
@@ -608,7 +610,7 @@ function TrainingCard({ training, onDelete }: TrainingCardProps) {
           <div className="flex items-center gap-1 text-slate-600">
             <Users className="h-4 w-4" />
             <span>
-              {training.enrolledParticipants}/{training.maxParticipants}
+              {training.enrolledParticipants} peserta
             </span>
           </div>
           {training.rating && (

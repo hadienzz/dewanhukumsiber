@@ -19,6 +19,10 @@ const convertToFormData = (payload: CreateWorkshopRequestPayload) => {
   formData.append("price", String(payload.price));
   formData.append("credit_price", String(payload.credit_price));
 
+  if (payload.start_date) {
+    formData.append("start_date", payload.start_date);
+  }
+
   (payload.benefits || []).forEach((benefit) => {
     formData.append("benefits", benefit);
   });

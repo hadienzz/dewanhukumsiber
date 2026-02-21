@@ -86,6 +86,7 @@ const useCreateWorkshop = () => {
       description: "",
       category: "",
       thumbnail: null,
+      start_date: "",
       price: 0,
       credit_price: 0,
       benefits: ["", "", ""],
@@ -99,6 +100,7 @@ const useCreateWorkshop = () => {
         ...values,
         price: Number(values.price || 0),
         credit_price: Number(values.credit_price || 0),
+        start_date: values.start_date || "",
         benefits: values.benefits.filter(
           (benefit) => benefit && benefit.trim().length > 0,
         ),
