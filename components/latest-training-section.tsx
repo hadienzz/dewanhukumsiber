@@ -132,7 +132,11 @@ export default function LatestTrainingSection() {
                 <div className="text-muted-foreground space-y-2 text-sm">
                   <div className="flex items-center gap-2">
                     <Calendar size={14} />
-                    <span>{formatDate(workshop.created_at)}</span>
+                    <span>
+                      {workshop.start_date
+                        ? formatDate(workshop.start_date)
+                        : formatDate(workshop.created_at)}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin size={14} />
@@ -140,7 +144,10 @@ export default function LatestTrainingSection() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock size={14} />
-                    <span>5 jam</span>
+                    <span>
+                      {workshop.module_count}{" "}
+                      {t("modul", "modules")}
+                    </span>
                   </div>
                 </div>
 
@@ -152,14 +159,16 @@ export default function LatestTrainingSection() {
                         className="fill-yellow-400 text-yellow-400"
                       />
                       <span className="text-sm font-semibold">
-                        {(Math.random() * (5 - 4) + 4.0).toFixed(1)}
+                        {workshop.avg_rating > 0
+                          ? workshop.avg_rating
+                          : "-"}
                       </span>
                     </div>
 
                     <div className="text-muted-foreground flex items-center gap-1 text-sm">
                       <Users size={14} />
                       <span>
-                        {23}/{25}
+                        {workshop.participant_count} {t("peserta", "participants")}
                       </span>
                     </div>
                   </div>

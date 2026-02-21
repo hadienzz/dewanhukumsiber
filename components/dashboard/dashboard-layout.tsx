@@ -19,6 +19,7 @@ import {
   CreditCard,
   Award,
   Scale,
+  GraduationCap,
 } from "lucide-react";
 import useGetUser from "@/hooks/auth/use-get-user";
 import AccessDenied from "@/components/access-denied";
@@ -51,8 +52,9 @@ const adminNavigation = [
     href: "/dashboard/training",
     icon: Presentation,
   },
-  { name: "Keanggotaan", href: "/dashboard/keanggotaan", icon: Award },
+  { name: "Tim Kami", href: "/dashboard/keanggotaan", icon: Award },
   { name: "Advokat", href: "/dashboard/advokat", icon: Scale },
+  { name: "Peserta Pelatihan", href: "/dashboard/peserta-pelatihan", icon: GraduationCap },
   // { name: "Live Sessions", href: "/dashboard/sessions", icon: Calendar },
   // { name: "Zoom Manager", href: "/dashboard/zoom", icon: Video },
   // { name: "Ujian", href: "/dashboard/exams-admin", icon: FileQuestion },

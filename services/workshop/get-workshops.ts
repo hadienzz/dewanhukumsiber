@@ -1,5 +1,13 @@
 import axiosInstance from "@/lib/axios";
 
+export interface WorkshopModuleSummary {
+  id: string;
+  title: string;
+  schedule_at: string;
+  type: string;
+  order: number;
+}
+
 export interface WorkshopSummary {
   id: string;
   title: string;
@@ -11,6 +19,12 @@ export interface WorkshopSummary {
   credit_price: number;
   benefits: string[];
   created_at: string;
+  participant_count: number;
+  avg_rating: number;
+  rating_count: number;
+  module_count: number;
+  start_date: string | null;
+  modules: WorkshopModuleSummary[];
 }
 
 export interface GetWorkshopsResponse {

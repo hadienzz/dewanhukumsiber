@@ -15,6 +15,8 @@ import CourseBenefitsField from "@/components/dashboard/course-benefits-field";
 import PriceField from "./course-duration-field";
 import MoneyPriceField from "./workshop-money-price-field";
 import useCreateWorkshop from "@/hooks/workshop/use-create-course";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface WorkshopFormProps {
   course?: Course;
@@ -85,6 +87,17 @@ export function CourseForm({ mode }: WorkshopFormProps) {
                   error={formik.errors.category as string | undefined}
                   onChange={(value) => formik.setFieldValue("category", value)}
                 />
+                <div className="space-y-2">
+                  <Label htmlFor="start_date">Tanggal Mulai Pelatihan</Label>
+                  <Input
+                    id="start_date"
+                    type="date"
+                    value={formik.values.start_date}
+                    onChange={(e) =>
+                      formik.setFieldValue("start_date", e.target.value)
+                    }
+                  />
+                </div>
                 <MoneyPriceField
                   value={formik.values.price.toString()}
                   error={formik.errors.price as string | undefined}

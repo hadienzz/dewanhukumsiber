@@ -32,6 +32,7 @@ export interface CreateWorkshopFormValues {
   description: string;
   category: string;
   thumbnail: File | null;
+  start_date: string;
   price: number;
   credit_price: number;
   benefits: string[];
@@ -43,6 +44,7 @@ export interface CreateWorkshopRequestPayload {
   description: string;
   category: string;
   thumbnail: File | null;
+  start_date: string;
   price: number; // NUMBER (IDR)
   credit_price: number; // NUMBER
   benefits: string[];
