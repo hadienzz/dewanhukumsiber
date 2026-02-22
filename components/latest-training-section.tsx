@@ -113,7 +113,7 @@ export default function LatestTrainingSection() {
                 <div className="flex items-center gap-3">
                   <div className="bg-muted relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
                     <Image
-                      src={"/placeholder.svg"}
+                      src={"/logo.jpeg"}
                       alt={"Instructor"}
                       fill
                       className="object-cover"

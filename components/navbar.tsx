@@ -53,7 +53,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-8 lg:flex">
             <Link
               href="/paket"
               className="text-foreground hover:text-primary flex items-center gap-1 transition"
@@ -124,7 +124,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Buttons */}
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-4 lg:flex">
             {isLoading ? (
               <div className="h-8 w-8 animate-pulse rounded-full bg-slate-200" />
             ) : hasLoggedin && user ? (
@@ -272,7 +272,7 @@ export default function Navbar() {
           </p>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -281,7 +281,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="mt-4 space-y-4 pb-4 md:hidden">
+          <div className="mt-4 space-y-4 pb-4 lg:hidden">
             <Link
               href="/paket"
               className="text-foreground hover:text-primary flex items-center gap-2"

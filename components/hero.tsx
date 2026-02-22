@@ -26,10 +26,13 @@ export default function Hero() {
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button
                 size="lg"
-                className="gap-2"
+                className="w-4/5 gap-2"
                 onClick={() => router.push("/paket")}
               >
-                {t("Gabung Sebagai Anggota", "Join as a Member")}{" "}
+                {t(
+                  "Isi kredit untuk menikmati fitur DHSI",
+                  "Top up credits to enjoy DHSI features",
+                )}{" "}
                 <ArrowRight size={20} />
               </Button>
             </div>
@@ -54,7 +57,7 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div className="relative h-64 w-[520px] sm:h-80 md:h-[550px]">
+          <div className="relative hidden sm:h-80 md:block md:h-[600px]">
             {/* <Image
               src="/director.png"
               alt="Ilustrasi Dewan Hukum Siber Indonesia"
