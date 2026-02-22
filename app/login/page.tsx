@@ -46,7 +46,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8 text-center">
-            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br bg-white shadow-lg">
+            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white bg-linear-to-br shadow-lg">
               <Image
                 className="text-white"
                 src={"/logo.png"}
@@ -61,9 +61,14 @@ export default function LoginPage() {
 
           <Card className="border-0 shadow-2xl">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-center text-2xl">{t("Masuk", "Sign In")}</CardTitle>
+              <CardTitle className="text-center text-2xl">
+                {t("Masuk", "Sign In")}
+              </CardTitle>
               <CardDescription className="text-center">
-                {t("Masuk ke akun Anda untuk mengakses semua fitur", "Sign in to your account to access all features")}
+                {t(
+                  "Masuk ke akun Anda untuk mengakses semua fitur",
+                  "Sign in to your account to access all features",
+                )}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -148,24 +153,13 @@ export default function LoginPage() {
                 </Button>
 
                 {/* Demo Credentials */}
-                <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm">
-                  <p className="mb-2 font-medium text-slate-700">{t("Demo Akun:", "Demo Account:")}</p>
-                  <div className="space-y-1 text-slate-600">
-                    <p>
-                      <span className="font-medium">User:</span> user@dhsi.com /
-                      password123
-                    </p>
-                    <p>
-                      <span className="font-medium">Admin:</span> admin@dhsi.com
-                      / password123
-                    </p>
-                  </div>
-                </div>
               </form>
 
               {/* Register Link */}
               <div className="mt-6 text-center text-sm">
-                <span className="text-slate-500">{t("Belum punya akun? ", "Don't have an account? ")}</span>
+                <span className="text-slate-500">
+                  {t("Belum punya akun? ", "Don't have an account? ")}
+                </span>
                 <Link
                   href="/register"
                   className="font-medium text-teal-600 hover:underline"

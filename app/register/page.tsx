@@ -72,9 +72,14 @@ export default function RegisterPage() {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-center">{t("Daftar Akun", "Create Account")}</CardTitle>
+              <CardTitle className="text-center">
+                {t("Daftar Akun", "Create Account")}
+              </CardTitle>
               <CardDescription className="text-center">
-                {t("Buat akun baru untuk mengakses semua fitur", "Create a new account to access all features")}
+                {t(
+                  "Buat akun baru untuk mengakses semua fitur",
+                  "Create a new account to access all features",
+                )}
               </CardDescription>
             </CardHeader>
 
@@ -84,7 +89,12 @@ export default function RegisterPage() {
                 {hasFormError && (
                   <div className="flex items-center gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-700">
                     <AlertCircle className="h-4 w-4" />
-                    <span>{t("Mohon periksa kembali form", "Please check the form again")}</span>
+                    <span>
+                      {t(
+                        "Mohon periksa kembali form",
+                        "Please check the form again",
+                      )}
+                    </span>
                   </div>
                 )}
 
@@ -111,6 +121,7 @@ export default function RegisterPage() {
                     <Input
                       name="email"
                       type="email"
+                      placeholder="@example.com"
                       className="pl-10"
                       value={formik.values.email}
                       onChange={formik.handleChange}
@@ -126,6 +137,8 @@ export default function RegisterPage() {
                     <Input
                       name="phone"
                       className="pl-10"
+                      type="number"
+                      placeholder="0812345678"
                       value={formik.values.phone}
                       onChange={formik.handleChange}
                     />
@@ -142,6 +155,7 @@ export default function RegisterPage() {
                       type={showPassword ? "text" : "password"}
                       className="pr-10 pl-10"
                       value={formik.values.password}
+                      placeholder="• • • • • • •"
                       onChange={formik.handleChange}
                     />
                     <button
@@ -176,7 +190,9 @@ export default function RegisterPage() {
               </form>
 
               <div className="mt-6 text-center text-sm">
-                <span className="text-slate-500">{t("Sudah punya akun? ", "Already have an account? ")}</span>
+                <span className="text-slate-500">
+                  {t("Sudah punya akun? ", "Already have an account? ")}
+                </span>
                 <Link href="/login" className="font-medium text-teal-600">
                   {t("Masuk", "Sign In")}
                 </Link>
