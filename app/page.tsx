@@ -1,5 +1,6 @@
 // import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
+import MitraCarousel from "@/components/mitra-carousel";
 import LatestTrainingSection from "@/components/latest-training-section";
 import FeaturesSection from "@/components/features-section";
 import TestimonialsSection from "@/components/testimonials-section";
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="">
         <Navbar />
         <Hero />
+        <MitraCarousel />
         <LatestTrainingSection />
         {/* <ClassesSection /> */}
         <FeaturesSection />
